@@ -16,7 +16,7 @@ frozen JSON.
 - **The same WASM SIMD instruction strategy wins in one engine and loses in
   another.**
   - The handwritten `i32x4.dot_i16x8_s` kernel is best on Windows Chrome 152.
-  - The `i16x8.mul + i32x4.extadd_pairwise_i16x8` substitution is best on M1
+  - The `i16x8.mul + i32x4.extadd_pairwise_i16x8_s` substitution is best on M1
     Chrome 153 and Firefox 155.
   - On M1 Safari 17.4.1 the winner splits by workload: pairwise for prefill,
     the compiler-autovectorized kernel for decode.

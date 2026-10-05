@@ -18,7 +18,7 @@ universal speed superiority.
 | Historical GGUF (microsoft/bitnet-b1.58-2B-4T-gguf @ 6e8c386a…, 1,844,472,032 bytes; verified externally) | 13939ce5030319a35db346e5dba7a3a3bd599dfc18b113a2a97446ff964714c5 |
 | G — generic C++ I2_S → Clang/Emscripten -O3 -msimd128 (compiler-autovectorized WASM SIMD128; NOT scalar) | 76317e0043e1468d35f81d8df18650c4d50d6d363983027463f9eb6abdb52ebf |
 | D — handwritten i32x4.dot_i16x8_s | 756a9e2230caa9a653fddb12c0ea9e3d12fb551345982c180cfb5c06aefbca9d |
-| P — handwritten i16x8.mul + i32x4.extadd_pairwise_i16x8 | 69d125579180e84c796d9d3a6039d53451df9415c3a2225cc2db20b5e360e624 |
+| P — handwritten i16x8.mul + i32x4.extadd_pairwise_i16x8_s | 69d125579180e84c796d9d3a6039d53451df9415c3a2225cc2db20b5e360e624 |
 | Phase 5D selector WASM | 944fc9f7818d34383a012328525243b069bf77fd147aa4ce22a08f657b720561 |
 | PHASE6_PROTOCOL.md | 5431b9c769d08b1bb5fbc0e7c9c0d04a4e569c573ad07ab0b2c64c9afda8a728 |
 | CORRECTNESS_PROTOCOL_V2.md | 23450db07389011fcae5dec72c22dd966304e65018364d3dfd8d6a62bac0de78 |
