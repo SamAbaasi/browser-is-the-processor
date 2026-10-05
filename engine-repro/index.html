@@ -1,0 +1,28 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>WASM SIMD dot vs mul+extadd_pairwise — engine repro</title>
+<style>body{font:14px/1.5 system-ui,sans-serif;max-width:860px;margin:32px auto;padding:0 16px}pre{background:#f4f4f2;padding:12px;overflow:auto}</style>
+<h1>WASM SIMD: <code>i32x4.dot_i16x8_s</code> vs <code>i16x8.mul + i32x4.extadd_pairwise_i16x8_s</code></h1>
+<p>Runs three equivalent SIMD128 kernels from one frozen WebAssembly module (SHA-256
+<code>944fc9f7818d34383a012328525243b069bf77fd147aa4ce22a08f657b720561</code>), verifies they
+produce identical results, and times them with counterbalanced ordering. Takes about 1–2 minutes.
+Serve this folder over HTTP (e.g. <code>python3 -m http.server</code>) and keep the tab in front.</p>
+<button id="run">Run</button>
+<pre id="out">ready</pre>
+<script>
+const out = document.getElementById("out");
+document.getElementById("run").onclick = () => {
+  out.textContent = "running…";
+  const w = new Worker("./repro-worker.js");
+  w.onmessage = ({ data }) => {
+    if (data.type === "verify") out.textContent += "\nverify bitmask per n (7 = all three kernels match the scalar reference): " + JSON.stringify(data.verify);
+    if (data.type === "progress") out.textContent += `\ncycle ${data.cycle}/${data.cycles}`;
+    if (data.type === "done") {
+      out.textContent += "\n\n" + JSON.stringify({ userAgent: data.userAgent, geomean: data.geomean, rows: data.rows }, null, 2);
+      window.reproResult = data;
+    }
+  };
+  w.onerror = e => out.textContent += "\nERROR " + e.message;
+  w.postMessage({ cycles: 4, targetMs: 150, rounds: 5 });
+};
+</script>
