@@ -39,6 +39,7 @@ frozen JSON.
 | `evidence/` | frozen results, freezes with SHA256SUMS, Phase 6 summary, Phase 7 |
 | `tools/` | evaluator, freeze, consolidation, break-even and WebDriver driver |
 | `claude-code-p1-handoff-2026-09-15/` | handoff bundle with the Windows Chrome 152 raw results and earlier-phase reference bundles |
+| `figures/` | article figures generated from frozen JSON (`python3 tools/make_figures.py`) |
 | `docs/PUBLIC_SOURCE_INDEX.md` | public papers, model revision, checkpoint-integrity and WASM SIMD spec references (provenance) |
 | `PACKAGE_SHA256SUMS`, `README_RECOVERY.md` | manifest of the verbatim correctness-v2 recovery package |
 

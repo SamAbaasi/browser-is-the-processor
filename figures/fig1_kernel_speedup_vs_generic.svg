@@ -1,0 +1,82 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='1060' height='500' viewBox='0 0 1060 500'>
+<rect width='100%' height='100%' fill='#fcfcfb'/>
+<text x='24' y='34' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='20' fill='#0b0b0b' text-anchor='start' font-weight='600'>Same WASM SIMD strategy, different winner per engine</text>
+<text x='24' y='58' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='13' fill='#52514e' text-anchor='start' font-weight='400'>Full-inference speedup over the compiler-autovectorized generic kernel (dashed line, G = 1.0).</text>
+<text x='24' y='77' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='13' fill='#52514e' text-anchor='start' font-weight='400'>Median of 6 retained runs; BitNet b1.58 2B4T, CPU-only, single thread, inside the browser.</text>
+<rect x='24' y='96' width='12' height='12' rx='2' fill='#2a78d6'/>
+<text x='42' y='107' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='13' fill='#0b0b0b' text-anchor='start' font-weight='400'>D · i32x4.dot_i16x8_s</text>
+<rect x='294' y='96' width='12' height='12' rx='2' fill='#eb6834'/>
+<text x='312' y='107' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='13' fill='#0b0b0b' text-anchor='start' font-weight='400'>P · i16x8.mul + extadd_pairwise</text>
+<line x1='64' x2='364' y1='410.0' y2='410.0' stroke='#e3e2de' stroke-width='1'/>
+<text x='56' y='414.0' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='11' fill='#52514e' text-anchor='end' font-weight='400'>0.0×</text>
+<line x1='64' x2='364' y1='345.0' y2='345.0' stroke='#e3e2de' stroke-width='1'/>
+<text x='56' y='349.0' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='11' fill='#52514e' text-anchor='end' font-weight='400'>0.5×</text>
+<line x1='64' x2='364' y1='280.0' y2='280.0' stroke='#52514e' stroke-width='1' stroke-dasharray='4 3'/>
+<text x='56' y='284.0' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='11' fill='#52514e' text-anchor='end' font-weight='400'>1.0×</text>
+<line x1='64' x2='364' y1='215.0' y2='215.0' stroke='#e3e2de' stroke-width='1'/>
+<text x='56' y='219.0' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='11' fill='#52514e' text-anchor='end' font-weight='400'>1.5×</text>
+<line x1='64' x2='364' y1='150.0' y2='150.0' stroke='#e3e2de' stroke-width='1'/>
+<text x='56' y='154.0' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='11' fill='#52514e' text-anchor='end' font-weight='400'>2.0×</text>
+<text x='64' y='140' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='14' fill='#0b0b0b' text-anchor='start' font-weight='600'>Windows / Chrome 152</text>
+<path d='M70.0,410 L70.0,183.71269604594653 Q70.0,179.71269604594653 74.0,179.71269604594653 L89.0,179.71269604594653 Q93.0,179.71269604594653 93.0,183.71269604594653 L93.0,410 Z' fill='#2a78d6'/>
+<path d='M95.0,410 L95.0,244.0413174720432 Q95.0,240.0413174720432 99.0,240.0413174720432 L114.0,240.0413174720432 Q118.0,240.0413174720432 118.0,244.0413174720432 L118.0,410 Z' fill='#eb6834'/>
+<text x='94.0' y='428' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='400'>p32</text>
+<path d='M130.0,410 L130.0,165.21630224370216 Q130.0,161.21630224370216 134.0,161.21630224370216 L149.0,161.21630224370216 Q153.0,161.21630224370216 153.0,165.21630224370216 L153.0,410 Z' fill='#2a78d6'/>
+<path d='M155.0,410 L155.0,228.92971358709573 Q155.0,224.92971358709573 159.0,224.92971358709573 L174.0,224.92971358709573 Q178.0,224.92971358709573 178.0,228.92971358709573 L178.0,410 Z' fill='#eb6834'/>
+<text x='154.0' y='428' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='400'>p64</text>
+<path d='M190.0,410 L190.0,201.8215724306624 Q190.0,197.8215724306624 194.0,197.8215724306624 L209.0,197.8215724306624 Q213.0,197.8215724306624 213.0,201.8215724306624 L213.0,410 Z' fill='#2a78d6'/>
+<path d='M215.0,410 L215.0,226.4638064077136 Q215.0,222.4638064077136 219.0,222.4638064077136 L234.0,222.4638064077136 Q238.0,222.4638064077136 238.0,226.4638064077136 L238.0,410 Z' fill='#eb6834'/>
+<text x='214.0' y='428' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='400'>p128</text>
+<path d='M250.0,410 L250.0,171.26570011427808 Q250.0,167.26570011427808 254.0,167.26570011427808 L269.0,167.26570011427808 Q273.0,167.26570011427808 273.0,171.26570011427808 L273.0,410 Z' fill='#2a78d6'/>
+<path d='M275.0,410 L275.0,240.9163009583929 Q275.0,236.9163009583929 279.0,236.9163009583929 L294.0,236.9163009583929 Q298.0,236.9163009583929 298.0,240.9163009583929 L298.0,410 Z' fill='#eb6834'/>
+<text x='274.0' y='428' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='400'>p256</text>
+<path d='M310.0,410 L310.0,247.18610882539815 Q310.0,243.18610882539815 314.0,243.18610882539815 L329.0,243.18610882539815 Q333.0,243.18610882539815 333.0,247.18610882539815 L333.0,410 Z' fill='#2a78d6'/>
+<path d='M335.0,410 L335.0,291.0498566312371 Q335.0,287.0498566312371 339.0,287.0498566312371 L354.0,287.0498566312371 Q358.0,287.0498566312371 358.0,291.0498566312371 L358.0,410 Z' fill='#eb6834'/>
+<text x='334.0' y='428' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='400'>decode64</text>
+<text x='64' y='452' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='12' fill='#0b0b0b' text-anchor='start' font-weight='400'>fastest on all 5 workloads: dot</text>
+<line x1='398' x2='698' y1='410.0' y2='410.0' stroke='#e3e2de' stroke-width='1'/>
+<line x1='398' x2='698' y1='345.0' y2='345.0' stroke='#e3e2de' stroke-width='1'/>
+<line x1='398' x2='698' y1='280.0' y2='280.0' stroke='#52514e' stroke-width='1' stroke-dasharray='4 3'/>
+<line x1='398' x2='698' y1='215.0' y2='215.0' stroke='#e3e2de' stroke-width='1'/>
+<line x1='398' x2='698' y1='150.0' y2='150.0' stroke='#e3e2de' stroke-width='1'/>
+<text x='398' y='140' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='14' fill='#0b0b0b' text-anchor='start' font-weight='600'>Apple M1 / Chrome 153</text>
+<path d='M404.0,410 L404.0,301.8418846654141 Q404.0,297.8418846654141 408.0,297.8418846654141 L423.0,297.8418846654141 Q427.0,297.8418846654141 427.0,301.8418846654141 L427.0,410 Z' fill='#2a78d6'/>
+<path d='M429.0,410 L429.0,265.29689955160393 Q429.0,261.29689955160393 433.0,261.29689955160393 L448.0,261.29689955160393 Q452.0,261.29689955160393 452.0,265.29689955160393 L452.0,410 Z' fill='#eb6834'/>
+<text x='428.0' y='428' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='400'>p32</text>
+<path d='M464.0,410 L464.0,301.1411769830553 Q464.0,297.1411769830553 468.0,297.1411769830553 L483.0,297.1411769830553 Q487.0,297.1411769830553 487.0,301.1411769830553 L487.0,410 Z' fill='#2a78d6'/>
+<path d='M489.0,410 L489.0,264.23410855700496 Q489.0,260.23410855700496 493.0,260.23410855700496 L508.0,260.23410855700496 Q512.0,260.23410855700496 512.0,264.23410855700496 L512.0,410 Z' fill='#eb6834'/>
+<text x='488.0' y='428' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='400'>p64</text>
+<path d='M524.0,410 L524.0,301.54675151003426 Q524.0,297.54675151003426 528.0,297.54675151003426 L543.0,297.54675151003426 Q547.0,297.54675151003426 547.0,301.54675151003426 L547.0,410 Z' fill='#2a78d6'/>
+<path d='M549.0,410 L549.0,266.5254787215945 Q549.0,262.5254787215945 553.0,262.5254787215945 L568.0,262.5254787215945 Q572.0,262.5254787215945 572.0,266.5254787215945 L572.0,410 Z' fill='#eb6834'/>
+<text x='548.0' y='428' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='400'>p128</text>
+<path d='M584.0,410 L584.0,301.38501347515825 Q584.0,297.38501347515825 588.0,297.38501347515825 L603.0,297.38501347515825 Q607.0,297.38501347515825 607.0,301.38501347515825 L607.0,410 Z' fill='#2a78d6'/>
+<path d='M609.0,410 L609.0,268.6948724946966 Q609.0,264.6948724946966 613.0,264.6948724946966 L628.0,264.6948724946966 Q632.0,264.6948724946966 632.0,268.6948724946966 L632.0,410 Z' fill='#eb6834'/>
+<text x='608.0' y='428' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='400'>p256</text>
+<path d='M644.0,410 L644.0,294.18385317155884 Q644.0,290.18385317155884 648.0,290.18385317155884 L663.0,290.18385317155884 Q667.0,290.18385317155884 667.0,294.18385317155884 L667.0,410 Z' fill='#2a78d6'/>
+<path d='M669.0,410 L669.0,276.73639750440145 Q669.0,272.73639750440145 673.0,272.73639750440145 L688.0,272.73639750440145 Q692.0,272.73639750440145 692.0,276.73639750440145 L692.0,410 Z' fill='#eb6834'/>
+<text x='668.0' y='428' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='400'>decode64</text>
+<text x='398' y='452' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='12' fill='#0b0b0b' text-anchor='start' font-weight='400'>fastest on all 5 workloads: pairwise</text>
+<line x1='732' x2='1032' y1='410.0' y2='410.0' stroke='#e3e2de' stroke-width='1'/>
+<line x1='732' x2='1032' y1='345.0' y2='345.0' stroke='#e3e2de' stroke-width='1'/>
+<line x1='732' x2='1032' y1='280.0' y2='280.0' stroke='#52514e' stroke-width='1' stroke-dasharray='4 3'/>
+<line x1='732' x2='1032' y1='215.0' y2='215.0' stroke='#e3e2de' stroke-width='1'/>
+<line x1='732' x2='1032' y1='150.0' y2='150.0' stroke='#e3e2de' stroke-width='1'/>
+<text x='732' y='140' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='14' fill='#0b0b0b' text-anchor='start' font-weight='600'>Apple M1 / Firefox 155</text>
+<path d='M738.0,410 L738.0,248.7529653497712 Q738.0,244.7529653497712 742.0,244.7529653497712 L757.0,244.7529653497712 Q761.0,244.7529653497712 761.0,248.7529653497712 L761.0,410 Z' fill='#2a78d6'/>
+<path d='M763.0,410 L763.0,216.09172259507832 Q763.0,212.09172259507832 767.0,212.09172259507832 L782.0,212.09172259507832 Q786.0,212.09172259507832 786.0,216.09172259507832 L786.0,410 Z' fill='#eb6834'/>
+<text x='762.0' y='428' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='400'>p32</text>
+<path d='M798.0,410 L798.0,244.02733812949643 Q798.0,240.02733812949643 802.0,240.02733812949643 L817.0,240.02733812949643 Q821.0,240.02733812949643 821.0,244.02733812949643 L821.0,410 Z' fill='#2a78d6'/>
+<path d='M823.0,410 L823.0,216.11457926182365 Q823.0,212.11457926182365 827.0,212.11457926182365 L842.0,212.11457926182365 Q846.0,212.11457926182365 846.0,216.11457926182365 L846.0,410 Z' fill='#eb6834'/>
+<text x='822.0' y='428' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='400'>p64</text>
+<path d='M858.0,410 L858.0,248.97719671632714 Q858.0,244.97719671632714 862.0,244.97719671632714 L877.0,244.97719671632714 Q881.0,244.97719671632714 881.0,248.97719671632714 L881.0,410 Z' fill='#2a78d6'/>
+<path d='M883.0,410 L883.0,224.70744466800804 Q883.0,220.70744466800804 887.0,220.70744466800804 L902.0,220.70744466800804 Q906.0,220.70744466800804 906.0,224.70744466800804 L906.0,410 Z' fill='#eb6834'/>
+<text x='882.0' y='428' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='400'>p128</text>
+<path d='M918.0,410 L918.0,255.33904168090194 Q918.0,251.33904168090194 922.0,251.33904168090194 L937.0,251.33904168090194 Q941.0,251.33904168090194 941.0,255.33904168090194 L941.0,410 Z' fill='#2a78d6'/>
+<path d='M943.0,410 L943.0,232.86988847583643 Q943.0,228.86988847583643 947.0,228.86988847583643 L962.0,228.86988847583643 Q966.0,228.86988847583643 966.0,232.86988847583643 L966.0,410 Z' fill='#eb6834'/>
+<text x='942.0' y='428' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='400'>p256</text>
+<path d='M978.0,410 L978.0,273.8473761647866 Q978.0,269.8473761647866 982.0,269.8473761647866 L997.0,269.8473761647866 Q1001.0,269.8473761647866 1001.0,273.8473761647866 L1001.0,410 Z' fill='#2a78d6'/>
+<path d='M1003.0,410 L1003.0,267.61581805142913 Q1003.0,263.61581805142913 1007.0,263.61581805142913 L1022.0,263.61581805142913 Q1026.0,263.61581805142913 1026.0,267.61581805142913 L1026.0,410 Z' fill='#eb6834'/>
+<text x='1002.0' y='428' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='400'>decode64</text>
+<text x='732' y='452' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='12' fill='#0b0b0b' text-anchor='start' font-weight='400'>fastest on all 5 workloads: pairwise</text>
+<text x='24' y='486' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='11' fill='#52514e' text-anchor='start' font-weight='400'>Source: frozen Phase 6 evidence (PHASE6_SUMMARY.json). Safari 17.4.1 omitted: performance not collected (correctness only).</text>
+</svg>
