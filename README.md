@@ -10,18 +10,22 @@ claim and explicitly unsupported claim, with data tables generated from the
 frozen JSON.
 
 ## Headline results (see the index for every caveat)
-- BitNet b1.58 2B4T runs fully in-browser on Windows Chrome 152 and on Apple
-  M1 Chrome 153, Firefox 155 and Safari 17.4.1. The three kernel variants
-  produce **bit-identical logits** in all four environments.
+- BitNet b1.58 2B4T runs fully in-browser on Windows Chrome 152 and Apple M1
+  Chrome 153 / Firefox 155 / Safari 17.4.1. The three kernel variants produce
+  **bit-identical logits** in all four environments.
 - **The same WASM SIMD instruction strategy wins in one engine and loses in
-  another.** The handwritten `i32x4.dot_i16x8_s` kernel is best on Windows
-  Chrome 152. The `i16x8.mul + i32x4.extadd_pairwise_i16x8` substitution is
-  best on M1 Chrome 153 and Firefox 155.
-- Full-inference speedups over a compiler-autovectorized SIMD baseline reach
+  another.**
+  - The handwritten `i32x4.dot_i16x8_s` kernel is best on Windows Chrome 152.
+  - The `i16x8.mul + i32x4.extadd_pairwise_i16x8` substitution is best on M1
+    Chrome 153 and Firefox 155.
+  - On M1 Safari 17.4.1 the winner splits by workload: pairwise for prefill,
+    the compiler-autovectorized kernel for decode.
+- Full-inference speedups over the compiler-autovectorized SIMD baseline reach
   1.91x. The original ≥2x gate was **not** passed.
-- Absolute throughput is low: about 1.7–3.6 decode tok/s. The adaptive kernel
-  selector **failed** its frozen gate on Windows Chrome 152. In this matrix, a
-  single static kernel matched the selector in 5 of 6 adaptive sessions.
+- Absolute throughput is low: about 1.7–3.6 decode tok/s.
+- The frozen adaptive kernel selector **failed** its gate on Windows Chrome 152
+  and on M1 Safari 17.4.1. Against the best fixed kernel it paid off in 5 of 8
+  sessions and was slower in 2.
 
 ## Method
 - Protocols, thresholds and evaluators were frozen and hashed **before**

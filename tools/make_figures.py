@@ -17,7 +17,7 @@ import json
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-SUMMARY = REPO / "evidence/phase6-adaptive-full-inference/final/PHASE6_SUMMARY.json"
+SUMMARY = Path(__import__("os").environ.get("P6_SUMMARY", REPO / "evidence/phase6-adaptive-full-inference/final/PHASE6_SUMMARY.json"))
 OUT = REPO / "figures"
 
 SURFACE, INK, INK2, GRID = "#fcfcfb", "#0b0b0b", "#52514e", "#e3e2de"
@@ -25,6 +25,7 @@ COL = {"dot": "#2a78d6", "pairwise": "#eb6834", "generic": "#1baf7a"}
 NAME = {"generic": "G · generic (autovectorized)", "dot": "D · i32x4.dot_i16x8_s",
         "pairwise": "P · i16x8.mul + extadd_pairwise"}
 WL = ["p32", "p64", "p128", "p256", "decode64"]
+OMIT = ""
 FONT = "font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif'"
 
 
@@ -50,9 +51,10 @@ def text(x, y, s, size=13, color=INK, anchor="start", weight="400"):
 
 
 def fig1(envs):
-    W, panel_w, panel_h, top, left, gap = 1060, 300, 260, 150, 64, 34
+    panel_w, panel_h, top, left, gap = 300, 260, 150, 64, 34
+    W = max(1060, left + len(envs) * panel_w + (len(envs) - 1) * gap + 30)
     ymax = 2.0
-    H = top + panel_h + 90
+    H = top + panel_h + 106
     out = [f"<svg xmlns='http://www.w3.org/2000/svg' width='{W}' height='{H}' viewBox='0 0 {W} {H}'>",
            f"<rect width='100%' height='100%' fill='{SURFACE}'/>",
            text(left - 40, 34, "Same WASM SIMD strategy, different winner per engine", 20, INK, weight="600"),
@@ -64,6 +66,7 @@ def fig1(envs):
         out.append(f"<rect x='{lx}' y='96' width='12' height='12' rx='2' fill='{COL[k]}'/>")
         out.append(text(lx + 18, 107, NAME[k], 13, INK))
         lx += 270
+    clipped = []
     for i, e in enumerate(envs):
         x0 = left + i * (panel_w + gap)
         base = top + panel_h
@@ -84,12 +87,25 @@ def fig1(envs):
             bx = x0 + j * slot + 6
             for m, k in enumerate(("dot", "pairwise")):
                 sp = med["generic"][w] / med[k][w]
-                out.append(bar(bx + m * (bw + 2), base, bw, sp / ymax * panel_h, COL[k]))
+                shown = min(sp, ymax)
+                out.append(bar(bx + m * (bw + 2), base, bw, shown / ymax * panel_h, COL[k]))
+                if sp > ymax:  # clipped: never draw outside the axis; print the value instead
+                    clipped.append(f"{e['label']} {w}")
+                    out.append(text(bx + m * (bw + 2) + bw / 2, sy(ymax) + 14 + 12 * m,
+                                    f"{sp:.2f}×†", 10, INK, "middle", "600"))
             out.append(text(x0 + j * slot + slot / 2, base + 18, w, 11, INK2, "middle"))
-        best = sorted({e["oracle"][w]["best_kernel"] for w in WL})
-        out.append(text(x0, base + 42, "fastest on all 5 workloads: " + "/".join(best), 12, INK))
-    out.append(text(left - 40, H - 14, "Source: frozen Phase 6 evidence (PHASE6_SUMMARY.json). "
-                    "Safari 17.4.1 omitted: performance not collected (correctness only).", 11, INK2))
+        winners = {}
+        for w in WL:
+            winners.setdefault(e["oracle"][w]["best_kernel"], []).append(w)
+        note = ("fastest on all 5 workloads: " + next(iter(winners))) if len(winners) == 1 else \
+            "fastest: " + "; ".join(f"{k} (" + ("prefill" if v == ["p32", "p64", "p128", "p256"] else
+                                                   "decode" if v == ["decode64"] else ", ".join(v)) + ")"
+                                    for k, v in winners.items())
+        out.append(text(x0, base + 42, note, 12, INK))
+    if clipped:
+        out.append(text(left - 40, H - 30, "† Bar clipped at the axis; value printed. Safari p32: the generic baseline is inflated by a "
+                        "first-session start anomaly (28–30 s vs 4.5 s); see final-v2/SAFARI_SENSITIVITY_NONCANONICAL.md.", 11, INK2))
+    out.append(text(left - 40, H - 14, "Source: frozen Phase 6 evidence (PHASE6_SUMMARY.json)." + OMIT, 11, INK2))
     out.append("</svg>")
     return "\n".join(out)
 
@@ -100,10 +116,12 @@ def fig2(envs):
     maxv = max(sum(e["canonical_static_median_ms"][k][w] for w in ("p128", "decode64")) / 1000
                for e in envs for k in COL)
     span = W - left - 120
+    bests = [min(sum(e["canonical_static_median_ms"][k][w] for w in ("p128", "decode64")) for k in COL) / 1000 for e in envs]
+    best_lo, best_hi = min(bests), max(bests)
     sx = lambda v: v / (maxv * 1.05) * span
     out = [f"<svg xmlns='http://www.w3.org/2000/svg' width='{W}' height='{H}' viewBox='0 0 {W} {H}'>",
            f"<rect width='100%' height='100%' fill='{SURFACE}'/>",
-           text(24, 34, "One interactive turn takes about 34–75 s on the best kernel", 20, INK, weight="600"),
+           text(24, 34, f"One interactive turn takes about {best_lo:.0f}–{best_hi:.0f} s on the best kernel", 20, INK, weight="600"),
            text(24, 58, "Representative turn = prefill 128 tokens + decode 64 tokens (seconds, median of 6 retained runs; "
                 "model load excluded).", 13, INK2)]
     lx = 24
@@ -123,8 +141,7 @@ def fig2(envs):
             y = y0 + m * (bh + 4)
             out.append(hbar(left, y, sx(v), bh, COL[k]))
             out.append(text(left + sx(v) + 6, y + bh - 7, f"{v:.1f} s", 12, INK))
-    out.append(text(24, H - 6, "Source: frozen Phase 6 evidence (PHASE6_SUMMARY.json). Safari 17.4.1 omitted: "
-                    "performance not collected.", 11, INK2))
+    out.append(text(24, H - 6, "Source: frozen Phase 6 evidence (PHASE6_SUMMARY.json)." + OMIT, 11, INK2))
     out.append("</svg>")
     return "\n".join(out)
 
@@ -132,6 +149,9 @@ def fig2(envs):
 def main():
     s = json.loads(SUMMARY.read_text())
     envs = [e for e in s["environments"] if e["phase6_environment_pass"] is not None]
+    global OMIT
+    missing = [e["label"] for e in s["environments"] if e["phase6_environment_pass"] is None]
+    OMIT = (" Omitted (performance not collected): " + ", ".join(missing) + ".") if missing else ""
     OUT.mkdir(exist_ok=True)
     (OUT / "fig1_kernel_speedup_vs_generic.svg").write_text(fig1(envs))
     (OUT / "fig2_turn_latency.svg").write_text(fig2(envs))

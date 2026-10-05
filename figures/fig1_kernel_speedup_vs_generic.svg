@@ -1,4 +1,4 @@
-<svg xmlns='http://www.w3.org/2000/svg' width='1060' height='500' viewBox='0 0 1060 500'>
+<svg xmlns='http://www.w3.org/2000/svg' width='1396' height='516' viewBox='0 0 1396 516'>
 <rect width='100%' height='100%' fill='#fcfcfb'/>
 <text x='24' y='34' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='20' fill='#0b0b0b' text-anchor='start' font-weight='600'>Same WASM SIMD strategy, different winner per engine</text>
 <text x='24' y='58' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='13' fill='#52514e' text-anchor='start' font-weight='400'>Full-inference speedup over the compiler-autovectorized generic kernel (dashed line, G = 1.0).</text>
@@ -78,5 +78,30 @@
 <path d='M1003.0,410 L1003.0,267.61581805142913 Q1003.0,263.61581805142913 1007.0,263.61581805142913 L1022.0,263.61581805142913 Q1026.0,263.61581805142913 1026.0,267.61581805142913 L1026.0,410 Z' fill='#eb6834'/>
 <text x='1002.0' y='428' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='400'>decode64</text>
 <text x='732' y='452' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='12' fill='#0b0b0b' text-anchor='start' font-weight='400'>fastest on all 5 workloads: pairwise</text>
-<text x='24' y='486' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='11' fill='#52514e' text-anchor='start' font-weight='400'>Source: frozen Phase 6 evidence (PHASE6_SUMMARY.json). Safari 17.4.1 omitted: performance not collected (correctness only).</text>
+<line x1='1066' x2='1366' y1='410.0' y2='410.0' stroke='#e3e2de' stroke-width='1'/>
+<line x1='1066' x2='1366' y1='345.0' y2='345.0' stroke='#e3e2de' stroke-width='1'/>
+<line x1='1066' x2='1366' y1='280.0' y2='280.0' stroke='#52514e' stroke-width='1' stroke-dasharray='4 3'/>
+<line x1='1066' x2='1366' y1='215.0' y2='215.0' stroke='#e3e2de' stroke-width='1'/>
+<line x1='1066' x2='1366' y1='150.0' y2='150.0' stroke='#e3e2de' stroke-width='1'/>
+<text x='1066' y='140' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='14' fill='#0b0b0b' text-anchor='start' font-weight='600'>Apple M1 / Safari 17.4.1</text>
+<path d='M1072.0,410 L1072.0,154.0 Q1072.0,150.0 1076.0,150.0 L1091.0,150.0 Q1095.0,150.0 1095.0,154.0 L1095.0,410 Z' fill='#2a78d6'/>
+<text x='1083.5' y='164.0' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='10' fill='#0b0b0b' text-anchor='middle' font-weight='600'>3.23×†</text>
+<path d='M1097.0,410 L1097.0,154.0 Q1097.0,150.0 1101.0,150.0 L1116.0,150.0 Q1120.0,150.0 1120.0,154.0 L1120.0,410 Z' fill='#eb6834'/>
+<text x='1108.5' y='176.0' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='10' fill='#0b0b0b' text-anchor='middle' font-weight='600'>3.72×†</text>
+<text x='1096.0' y='428' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='400'>p32</text>
+<path d='M1132.0,410 L1132.0,294.26994839221913 Q1132.0,290.26994839221913 1136.0,290.26994839221913 L1151.0,290.26994839221913 Q1155.0,290.26994839221913 1155.0,294.26994839221913 L1155.0,410 Z' fill='#2a78d6'/>
+<path d='M1157.0,410 L1157.0,276.4009124607927 Q1157.0,272.4009124607927 1161.0,272.4009124607927 L1176.0,272.4009124607927 Q1180.0,272.4009124607927 1180.0,276.4009124607927 L1180.0,410 Z' fill='#eb6834'/>
+<text x='1156.0' y='428' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='400'>p64</text>
+<path d='M1192.0,410 L1192.0,296.6980768773623 Q1192.0,292.6980768773623 1196.0,292.6980768773623 L1211.0,292.6980768773623 Q1215.0,292.6980768773623 1215.0,296.6980768773623 L1215.0,410 Z' fill='#2a78d6'/>
+<path d='M1217.0,410 L1217.0,278.0397861905549 Q1217.0,274.0397861905549 1221.0,274.0397861905549 L1236.0,274.0397861905549 Q1240.0,274.0397861905549 1240.0,278.0397861905549 L1240.0,410 Z' fill='#eb6834'/>
+<text x='1216.0' y='428' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='400'>p128</text>
+<path d='M1252.0,410 L1252.0,290.2401817804433 Q1252.0,286.2401817804433 1256.0,286.2401817804433 L1271.0,286.2401817804433 Q1275.0,286.2401817804433 1275.0,290.2401817804433 L1275.0,410 Z' fill='#2a78d6'/>
+<path d='M1277.0,410 L1277.0,270.7889919854373 Q1277.0,266.7889919854373 1281.0,266.7889919854373 L1296.0,266.7889919854373 Q1300.0,266.7889919854373 1300.0,270.7889919854373 L1300.0,410 Z' fill='#eb6834'/>
+<text x='1276.0' y='428' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='400'>p256</text>
+<path d='M1312.0,410 L1312.0,289.63463272452765 Q1312.0,285.63463272452765 1316.0,285.63463272452765 L1331.0,285.63463272452765 Q1335.0,285.63463272452765 1335.0,289.63463272452765 L1335.0,410 Z' fill='#2a78d6'/>
+<path d='M1337.0,410 L1337.0,346.6084585141922 Q1337.0,342.6084585141922 1341.0,342.6084585141922 L1356.0,342.6084585141922 Q1360.0,342.6084585141922 1360.0,346.6084585141922 L1360.0,410 Z' fill='#eb6834'/>
+<text x='1336.0' y='428' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='11' fill='#52514e' text-anchor='middle' font-weight='400'>decode64</text>
+<text x='1066' y='452' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='12' fill='#0b0b0b' text-anchor='start' font-weight='400'>fastest: pairwise (prefill); generic (decode)</text>
+<text x='24' y='486' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='11' fill='#52514e' text-anchor='start' font-weight='400'>† Bar clipped at the axis; value printed. Safari p32: the generic baseline is inflated by a first-session start anomaly (28–30 s vs 4.5 s); see final-v2/SAFARI_SENSITIVITY_NONCANONICAL.md.</text>
+<text x='24' y='502' font-family='system-ui, -apple-system, Segoe UI, Roboto, sans-serif' font-size='11' fill='#52514e' text-anchor='start' font-weight='400'>Source: frozen Phase 6 evidence (PHASE6_SUMMARY.json).</text>
 </svg>
