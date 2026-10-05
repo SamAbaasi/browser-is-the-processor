@@ -1,0 +1,40 @@
+{"event": "session_start", "run": "correctness-v2", "browserName": "firefox", "browserVersion": "155.0", "platformName": "mac", "t": "2026-10-04T18:28:51.230623+00:00"}
+{"event": "run_clicked", "run": "correctness-v2", "button": "#run", "t": "2026-10-04T18:28:51.405247+00:00"}
+{"event": "run_finished", "run": "correctness-v2", "status": "rue\n    },\n    \"generic_vs_pairwise\": {\n      \"cosine\": 1,\n      \"relative_l2\": 0,\n      \"max_abs_diff\": 0,\n      \"pass\": true\n    },\n    \"dot_vs_pairwise\": {\n      \"cosine\": 1,\n      \"relative_l2\": 0,\n      \"max_abs_diff\": 0,\n      \"pass\": true\n    }\n  },\n  \"overall_pass\": true\n}\n\nCORRECTNESS PASS\n", "elapsed_s": 15.0, "captured": false, "t": "2026-10-04T18:29:06.422353+00:00"}
+{"event": "session_end", "run": "correctness-v2", "t": "2026-10-04T18:29:06.782783+00:00"}
+{"event": "STOP", "reason": "correctness produced no result", "t": "2026-10-04T18:29:06.782930+00:00"}
+{"event": "NOTE", "t": "2026-10-04T18:29:47.765143+00:00", "note": "correctness-v2 attempt 1 (18:28:51Z) completed in-page with 'CORRECTNESS PASS' (tail logged above) but the driver failed to capture the JSON: Firefox WebDriver sandbox cannot read the page's top-level `let finalResult`. Driver bug, not a measurement outcome. Driver patched to read the harness's own printed JSON from #output with an exact round-trip check; correctness-v2 re-run as attempt 2. Correctness is not a performance measurement."}
+{"event": "session_start", "run": "correctness-v2", "browserName": "firefox", "browserVersion": "155.0", "platformName": "mac", "t": "2026-10-04T18:30:26.857941+00:00"}
+{"event": "run_clicked", "run": "correctness-v2", "button": "#run", "t": "2026-10-04T18:30:27.052718+00:00"}
+{"event": "run_finished", "run": "correctness-v2", "status": "rue\n    },\n    \"generic_vs_pairwise\": {\n      \"cosine\": 1,\n      \"relative_l2\": 0,\n      \"max_abs_diff\": 0,\n      \"pass\": true\n    },\n    \"dot_vs_pairwise\": {\n      \"cosine\": 1,\n      \"relative_l2\": 0,\n      \"max_abs_diff\": 0,\n      \"pass\": true\n    }\n  },\n  \"overall_pass\": true\n}\n\nCORRECTNESS PASS\n", "elapsed_s": 15.0, "captured": true, "t": "2026-10-04T18:30:42.083085+00:00"}
+{"event": "session_end", "run": "correctness-v2", "t": "2026-10-04T18:30:42.517293+00:00"}
+{"event": "correctness_validated", "file": "evidence/phase6-adaptive-full-inference/correctness/v2/m1-firefox155-correctness-v2.json", "pass_": true, "t": "2026-10-04T18:30:42.517892+00:00"}
+{"event": "session_start", "run": "static1", "browserName": "firefox", "browserVersion": "155.0", "platformName": "mac", "t": "2026-10-04T18:30:44.992850+00:00"}
+{"event": "run_clicked", "run": "static1", "button": "#static1", "t": "2026-10-04T18:30:45.254029+00:00"}
+{"event": "run_finished", "run": "static1", "status": "Static session 1 complete", "elapsed_s": 1472.3, "captured": true, "t": "2026-10-04T18:55:17.515397+00:00"}
+{"event": "session_end", "run": "static1", "t": "2026-10-04T18:55:18.102469+00:00"}
+{"event": "saved", "file": "evidence/phase6-adaptive-full-inference/results/m1-firefox155/static-session1.json", "t": "2026-10-04T18:55:18.103983+00:00"}
+{"event": "session_start", "run": "static2", "browserName": "firefox", "browserVersion": "155.0", "platformName": "mac", "t": "2026-10-04T18:55:20.924097+00:00"}
+{"event": "run_clicked", "run": "static2", "button": "#static2", "t": "2026-10-04T18:55:21.100993+00:00"}
+{"event": "NOTE", "t": "2026-10-04T19:01:20.805157+00:00", "note": "static2 attempt 1 (clicked 18:55:21Z) ABORTED as infrastructure failure: the driver process was killed at ~19:00Z by the agent tool's background time limit, and the WebDriver session id was not logged, so the in-page result could not be captured. The result was never observed by anyone. Browser and geckodriver were terminated at ~19:01Z. static2 re-run as attempt 2 with a detached driver that logs session ids. No other session affected; static-session1.json unchanged."}
+{"event": "session_start", "run": "static2", "session_id": "35d92242-f530-4134-bd21-39bfa865ada8", "browserName": "firefox", "browserVersion": "155.0", "platformName": "mac", "t": "2026-10-04T19:01:36.510290+00:00"}
+{"event": "run_clicked", "run": "static2", "button": "#static2", "t": "2026-10-04T19:01:36.665504+00:00"}
+{"event": "session_end", "run": "static2", "t": "2026-10-05T03:34:02.429651+00:00"}
+{"event": "NOTE", "t": "2026-10-05T04:15:44.362084+00:00", "note": "static2 attempt 2 (clicked 19:01:36Z) ABORTED as infrastructure failure: macOS forced 'Low Power Sleep' at 1% battery at 2026-10-04 22:37:20 +0330 (19:07:20Z), ~6 min into the session; machine hibernated until AC attach 2026-10-05 07:04 +0330; driver then hit its 4h timeout. Result never captured or observed. Disclosure: static1 (18:30-18:55Z) also ran on battery (macOS battery warning level 2 = 10% capacity at 22:22 +0330), Low Power Mode OFF (pmset lowpowermode=0 for battery and AC, no transitions logged). static1 retained unchanged per frozen rule 2. Remaining sessions gated on AC power by driver."}
+{"event": "waiting_for_ac_power", "run": "static2", "power": "Now drawing from 'Battery Power' | -InternalBattery-0 (id=7209059)\t44%; discharging; 4:07 remaining present: true", "t": "2026-10-05T04:15:51.539751+00:00"}
+{"event": "session_start", "run": "static2", "session_id": "0fff39f4-444a-466a-8f36-c157b1c4d6b3", "power": "Now drawing from 'AC Power' | -InternalBattery-0 (id=7209059)\t44%; charging; (no estimate) present: true", "browserName": "firefox", "browserVersion": "155.0", "platformName": "mac", "t": "2026-10-05T04:18:54.204446+00:00"}
+{"event": "run_clicked", "run": "static2", "button": "#static2", "t": "2026-10-05T04:18:54.393604+00:00"}
+{"event": "run_finished", "run": "static2", "status": "Static session 2 complete", "elapsed_s": 1411.8, "captured": true, "t": "2026-10-05T04:42:26.182362+00:00"}
+{"event": "session_end", "run": "static2", "t": "2026-10-05T04:42:26.587064+00:00"}
+{"event": "saved", "file": "evidence/phase6-adaptive-full-inference/results/m1-firefox155/static-session2.json", "t": "2026-10-05T04:42:26.588797+00:00"}
+{"event": "session_start", "run": "adaptive1", "session_id": "fe29d728-5f88-4fe9-9d05-46bc51d2bf42", "power": "Now drawing from 'AC Power' | -InternalBattery-0 (id=7209059)\t67%; charging; 1:28 remaining present: true", "browserName": "firefox", "browserVersion": "155.0", "platformName": "mac", "t": "2026-10-05T04:42:28.822520+00:00"}
+{"event": "run_clicked", "run": "adaptive1", "button": "#adaptive1", "t": "2026-10-05T04:42:29.040767+00:00"}
+{"event": "run_finished", "run": "adaptive1", "status": "Adaptive session 1 complete", "elapsed_s": 405.4, "captured": true, "t": "2026-10-05T04:49:14.394975+00:00"}
+{"event": "session_end", "run": "adaptive1", "t": "2026-10-05T04:49:14.743028+00:00"}
+{"event": "saved", "file": "evidence/phase6-adaptive-full-inference/results/m1-firefox155/adaptive-session1.json", "t": "2026-10-05T04:49:14.744023+00:00"}
+{"event": "session_start", "run": "adaptive2", "session_id": "00b12126-db71-4b01-b898-0d19b217ddfd", "power": "Now drawing from 'AC Power' | -InternalBattery-0 (id=7209059)\t72%; charging; 1:24 remaining present: true", "browserName": "firefox", "browserVersion": "155.0", "platformName": "mac", "t": "2026-10-05T04:49:17.004913+00:00"}
+{"event": "run_clicked", "run": "adaptive2", "button": "#adaptive2", "t": "2026-10-05T04:49:17.190048+00:00"}
+{"event": "run_finished", "run": "adaptive2", "status": "Adaptive session 2 complete", "elapsed_s": 405.4, "captured": true, "t": "2026-10-05T04:56:02.570393+00:00"}
+{"event": "session_end", "run": "adaptive2", "t": "2026-10-05T04:56:02.950327+00:00"}
+{"event": "saved", "file": "evidence/phase6-adaptive-full-inference/results/m1-firefox155/adaptive-session2.json", "t": "2026-10-05T04:56:02.951047+00:00"}
+{"event": "ALL_DONE", "env": "m1-firefox155", "t": "2026-10-05T04:56:02.951112+00:00"}

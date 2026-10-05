@@ -1,0 +1,142 @@
+{
+  "schema": "p1-phase5d-autotune-v1",
+  "timestamp": "2026-09-15T08:07:03.188Z",
+  "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4.1 Safari/605.1.15",
+  "hardware_concurrency": 8,
+  "device_memory_gb": null,
+  "cross_origin_isolated": false,
+  "frozen_wasm_sha256": "944fc9f7818d34383a012328525243b069bf77fd147aa4ce22a08f657b720561",
+  "protocol": {
+    "tune_n": 6912,
+    "confidence_threshold": 0.05,
+    "soft_confirmation_deadline_ms": 140,
+    "prewarm_target_ms": 3,
+    "prewarm_internal_rounds": 1,
+    "stage1_target_ms": 4,
+    "stage1_internal_rounds": 1,
+    "stage1_orders": [
+      [
+        "generic",
+        "dot",
+        "pairwise"
+      ],
+      [
+        "dot",
+        "pairwise",
+        "generic"
+      ],
+      [
+        "pairwise",
+        "generic",
+        "dot"
+      ]
+    ],
+    "confirmation_target_ms": 4,
+    "confirmation_internal_rounds": 1,
+    "max_confirmation_pairs": 1,
+    "selector_gate_ms": 200,
+    "canonical_regret_gate": 1.02,
+    "canonical_oracle": "Phase 4D frozen cross-platform v6.2",
+    "live_validation": false
+  },
+  "selector": {
+    "stage1_scores": {
+      "generic": {
+        "samples_ms": [
+          0.0006103515625000017,
+          0.0003662109375,
+          0.00042724609375
+        ],
+        "sample_count": 3,
+        "median_ms": 0.00042724609375
+      },
+      "dot": {
+        "samples_ms": [
+          0.0006103515625,
+          0.0006103515625,
+          0.00048828125
+        ],
+        "sample_count": 3,
+        "median_ms": 0.0006103515625
+      },
+      "pairwise": {
+        "samples_ms": [
+          0.00048828125,
+          0.00042724609375,
+          0.0003662109375
+        ],
+        "sample_count": 3,
+        "median_ms": 0.00042724609375
+      }
+    },
+    "stage1_ranking": [
+      "generic",
+      "pairwise",
+      "dot"
+    ],
+    "stage1_margin": 0,
+    "elapsed_after_stage1_ms": 133,
+    "confirmation_triggered": true,
+    "extension_triggered": true,
+    "confirmation_skipped_for_budget": false,
+    "confirmation_order": [
+      "generic",
+      "pairwise"
+    ],
+    "extension_top_two": [
+      "generic",
+      "pairwise"
+    ],
+    "elapsed_before_confirmation_ms": 133,
+    "final_scores": {
+      "generic": {
+        "samples_ms": [
+          0.0006103515625000017,
+          0.0003662109375,
+          0.00042724609375,
+          0.0004248088360237893
+        ],
+        "sample_count": 4,
+        "median_ms": 0.00042602746488689465
+      },
+      "dot": {
+        "samples_ms": [
+          0.0006103515625,
+          0.0006103515625,
+          0.00048828125
+        ],
+        "sample_count": 3,
+        "median_ms": 0.0006103515625
+      },
+      "pairwise": {
+        "samples_ms": [
+          0.00048828125,
+          0.00042724609375,
+          0.0003662109375,
+          0.00042724609375000173
+        ],
+        "sample_count": 4,
+        "median_ms": 0.00042724609375000087
+      }
+    },
+    "final_ranking": [
+      "generic",
+      "pairwise",
+      "dot"
+    ],
+    "final_margin": 0.002860446716574261,
+    "equivalence_set": [
+      "generic",
+      "pairwise"
+    ],
+    "decision_mode": "bounded-confirmation-pair",
+    "selected_variant": "generic",
+    "selector_wall_ms": 182.00000000000003,
+    "passes_wall_time_gate": true
+  },
+  "gates": {
+    "selector_wall_under_200ms": true
+  },
+  "verification_wall_ms": 1,
+  "suite_wall_ms": 189.00000000000003
+}

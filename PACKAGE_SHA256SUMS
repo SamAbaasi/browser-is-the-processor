@@ -1,0 +1,15 @@
+e5f6a1d2aa43c9bfd828f1c77571654f7082f5b9fb9deb95d1a42596169ced89  ./README_RECOVERY.md
+0e6ea94df3e41accab0b21d4321ec452f1f8154df51145167b32609b07646b3e  ./browser/dist/correctness-v2/dot/p1-logit-probe.js
+10f1968511566bf5284cd208847c7eb5a55be90cb5a155520b9fc9dfce54e4c3  ./browser/dist/correctness-v2/dot/p1-logit-probe.wasm
+0e6ea94df3e41accab0b21d4321ec452f1f8154df51145167b32609b07646b3e  ./browser/dist/correctness-v2/generic/p1-logit-probe.js
+ce9c29a2f112693219a03a63fb7c4c4dc85b6f505c5410b08d2de2e248845dd7  ./browser/dist/correctness-v2/generic/p1-logit-probe.wasm
+0e6ea94df3e41accab0b21d4321ec452f1f8154df51145167b32609b07646b3e  ./browser/dist/correctness-v2/pairwise/p1-logit-probe.js
+74f1a47f388d2433af2fd835d5a6c07ce3e054aba96b600a6c4b994218044798  ./browser/dist/correctness-v2/pairwise/p1-logit-probe.wasm
+c45a9415b072a52625729ded045ef632e86e7cf8df3a7d98a8c6f4236e48f6a1  ./browser/phase6-correctness-v2.html
+6cbd460888234ec4af32c897cce3e1aa62f4c6c465e013d3e641a53604849b24  ./browser/phase6-correctness-worker-v2.js
+a72be94b584333ee0e634adaaa931d2715f21188f973057b379cb6c5045dea79  ./evidence/phase6-adaptive-full-inference/CORRECTNESS_PROTOCOL_V2_SHA256.txt
+5386d2819c0ec2e1a4b8340c1d794aa7c497c65886672cea1fcc02e23e15d020  ./evidence/phase6-adaptive-full-inference/correctness/v2/FROZEN_HARNESS_SHA256.txt
+1f52d7ba0df6c4c6cd7c9d241a52d72e1831b92820c9fa37c8e8a7d506a0df14  ./evidence/phase6-adaptive-full-inference/correctness/v2/windows-chrome152-correctness-v2.json
+23450db07389011fcae5dec72c22dd966304e65018364d3dfd8d6a62bac0de78  ./experiments/phase6-adaptive-full-inference/CORRECTNESS_PROTOCOL_V2.md
+4a1acbbaa451718f5dfc98ddd5e33dd94ab27e6d7e2177a7cd546a58844a4751  ./experiments/phase6-adaptive-full-inference/logit_probe_browser.cpp
+50a181b0b8ce60079bd85cf1032fc6e0ee314ebddd7ca74a49a7afb7a355ee12  ./tools/build_phase6_correctness_v2.sh

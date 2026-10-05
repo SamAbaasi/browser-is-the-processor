@@ -1,0 +1,473 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Phase 6 Correctness</title>
+
+<style>
+body {
+  font-family: ui-monospace, monospace;
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+button,
+input {
+  padding: 10px;
+  margin-right: 8px;
+}
+
+pre {
+  background: #111;
+  color: #eee;
+  padding: 16px;
+  min-height: 420px;
+  overflow: auto;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Phase 6 — G/D/P Correctness</h1>
+
+<input
+  id="model"
+  type="file"
+  accept=".gguf"
+/>
+
+<button id="run">
+Run correctness
+</button>
+
+<button id="copy" disabled>
+Copy JSON
+</button>
+
+<pre id="output"></pre>
+
+<script>
+const VARIANTS = [
+  "generic",
+  "dot",
+  "pairwise"
+];
+
+const modelInput =
+  document.querySelector("#model");
+
+const runButton =
+  document.querySelector("#run");
+
+const copyButton =
+  document.querySelector("#copy");
+
+const output =
+  document.querySelector("#output");
+
+let finalResult = null;
+
+function log(s = "") {
+  output.textContent +=
+    s + "\n";
+
+  output.scrollTop =
+    output.scrollHeight;
+}
+
+function runVariant(
+  file,
+  variant
+) {
+  return new Promise(
+    (resolve, reject) => {
+      const worker =
+        new Worker(
+          "./phase6-correctness-worker-v2.js"
+        );
+
+      worker.onmessage =
+        event => {
+          const msg =
+            event.data;
+
+          if (msg.type === "done") {
+            worker.terminate();
+            resolve(msg);
+            return;
+          }
+
+          if (msg.type === "error") {
+            worker.terminate();
+
+            reject(
+              new Error(
+                variant +
+                ": " +
+                msg.message +
+                "\nSTDERR:\n" +
+                (msg.stderr || []).join("\n")
+              )
+            );
+          }
+        };
+
+      worker.onerror =
+        error => {
+          worker.terminate();
+          reject(error);
+        };
+
+      worker.postMessage({
+        file,
+        variant
+      });
+    }
+  );
+}
+
+function topInfo(xs) {
+  let first = -1;
+  let second = -1;
+
+  let firstValue =
+    -Infinity;
+
+  let secondValue =
+    -Infinity;
+
+  for (
+    let i = 0;
+    i < xs.length;
+    ++i
+  ) {
+    const v = xs[i];
+
+    if (v > firstValue) {
+      second = first;
+      secondValue = firstValue;
+
+      first = i;
+      firstValue = v;
+
+    } else if (
+      v > secondValue
+    ) {
+      second = i;
+      secondValue = v;
+    }
+  }
+
+  return {
+    top1_id: first,
+    top1_logit: firstValue,
+    top2_id: second,
+    top2_logit: secondValue,
+    margin:
+      firstValue -
+      secondValue
+  };
+}
+
+function scanFinite(xs) {
+  let nan = 0;
+  let inf = 0;
+
+  for (const v of xs) {
+    if (Number.isNaN(v)) {
+      ++nan;
+    } else if (!Number.isFinite(v)) {
+      ++inf;
+    }
+  }
+
+  return {
+    nan_count: nan,
+    inf_count: inf
+  };
+}
+
+function compare(a, b) {
+  if (a.length !== b.length) {
+    throw new Error(
+      "vector length mismatch"
+    );
+  }
+
+  let dot = 0;
+  let normA = 0;
+  let normB = 0;
+  let diff2 = 0;
+  let maxAbs = 0;
+
+  for (
+    let i = 0;
+    i < a.length;
+    ++i
+  ) {
+    const x = a[i];
+    const y = b[i];
+
+    dot += x * y;
+    normA += x * x;
+    normB += y * y;
+
+    const d = x - y;
+
+    diff2 += d * d;
+
+    maxAbs =
+      Math.max(
+        maxAbs,
+        Math.abs(d)
+      );
+  }
+
+  const cosine =
+    dot /
+    Math.sqrt(
+      normA * normB
+    );
+
+  const relativeL2 =
+    Math.sqrt(diff2) /
+    Math.max(
+      Math.sqrt(normA),
+      Math.sqrt(normB)
+    );
+
+  return {
+    cosine,
+    relative_l2: relativeL2,
+    max_abs_diff: maxAbs,
+    pass:
+      cosine >= 0.99 &&
+      relativeL2 <= 0.05
+  };
+}
+
+runButton.onclick =
+  async () => {
+    const file =
+      modelInput.files[0];
+
+    if (!file) {
+      alert("Select historical GGUF first.");
+      return;
+    }
+
+    runButton.disabled = true;
+    copyButton.disabled = true;
+
+    output.textContent = "";
+    finalResult = null;
+
+    try {
+      const runs = {};
+
+      for (
+        const variant of VARIANTS
+      ) {
+        log(
+          "Running " +
+          variant +
+          "..."
+        );
+
+        const result =
+          await runVariant(
+            file,
+            variant
+          );
+
+        runs[variant] = {
+          meta: result.meta,
+          logits:
+            new Float32Array(
+              result.logits
+            )
+        };
+
+        log(
+          variant +
+          ": vocab=" +
+          result.meta.n_vocab +
+          " nan=" +
+          result.meta.nan_count +
+          " inf=" +
+          result.meta.inf_count
+        );
+      }
+
+      const nVocabs =
+        VARIANTS.map(
+          v =>
+            runs[v].meta.n_vocab
+        );
+
+      const sameVocab =
+        nVocabs.every(
+          x =>
+            x === nVocabs[0]
+        );
+
+      const summaries = {};
+
+      for (
+        const variant of VARIANTS
+      ) {
+        const logits =
+          runs[variant].logits;
+
+        summaries[variant] = {
+          n_vocab:
+            runs[variant].meta.n_vocab,
+
+          probe_nan_count:
+            runs[variant].meta.nan_count,
+
+          probe_inf_count:
+            runs[variant].meta.inf_count,
+
+          vector_scan:
+            scanFinite(logits),
+
+          top:
+            topInfo(logits)
+        };
+      }
+
+      const comparisons = {
+        generic_vs_dot:
+          compare(
+            runs.generic.logits,
+            runs.dot.logits
+          ),
+
+        generic_vs_pairwise:
+          compare(
+            runs.generic.logits,
+            runs.pairwise.logits
+          ),
+
+        dot_vs_pairwise:
+          compare(
+            runs.dot.logits,
+            runs.pairwise.logits
+          )
+      };
+
+      const finitePass =
+        VARIANTS.every(
+          variant =>
+            summaries[variant]
+              .probe_nan_count === 0 &&
+            summaries[variant]
+              .probe_inf_count === 0 &&
+            summaries[variant]
+              .vector_scan
+              .nan_count === 0 &&
+            summaries[variant]
+              .vector_scan
+              .inf_count === 0
+        );
+
+      const numericalPass =
+        Object.values(
+          comparisons
+        ).every(
+          x => x.pass
+        );
+
+      const pass =
+        sameVocab &&
+        finitePass &&
+        numericalPass;
+
+      finalResult = {
+        schema:
+          "p1-phase6-correctness-v2",
+
+        timestamp:
+          new Date().toISOString(),
+
+        user_agent:
+          navigator.userAgent,
+
+        canonical_input: [
+          128000,
+          791,
+          6864,
+          315,
+          9822,
+          374
+        ],
+
+        same_vocab:
+          sameVocab,
+
+        finite_pass:
+          finitePass,
+
+        variants:
+          summaries,
+
+        comparisons,
+
+        overall_pass:
+          pass
+      };
+
+      log("");
+      log(
+        JSON.stringify(
+          finalResult,
+          null,
+          2
+        )
+      );
+
+      log("");
+      log(
+        pass
+          ? "CORRECTNESS PASS"
+          : "CORRECTNESS FAIL"
+      );
+
+      copyButton.disabled = false;
+
+    } catch (error) {
+      log("");
+      log(
+        "ERROR: " +
+        (
+          error?.stack ||
+          String(error)
+        )
+      );
+
+    } finally {
+      runButton.disabled = false;
+    }
+  };
+
+copyButton.onclick =
+  async () => {
+    if (!finalResult) {
+      return;
+    }
+
+    await navigator.clipboard.writeText(
+      JSON.stringify(
+        finalResult,
+        null,
+        2
+      )
+    );
+  };
+</script>
+
+</body>
+</html>

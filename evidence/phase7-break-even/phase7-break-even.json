@@ -1,0 +1,136 @@
+{
+  "schema": "p1-phase7-break-even-v2",
+  "provisional": true,
+  "representative_turn": "p128 + decode64 (canonical static medians)",
+  "universal_static": {
+    "kernel": "pairwise",
+    "cross_env_gm_turn_ms": {
+      "generic": 60512.90774038696,
+      "dot": 52718.0867202209,
+      "pairwise": 51552.57017161203
+    }
+  },
+  "selector_wall_source": "max canonical Phase 5D selector_wall_ms per environment",
+  "selection_rule": "each Phase 6 adaptive session evaluated independently (rule 16)",
+  "first_use_note": "selector wall + canonical steady-state turn; model load and cold-start JIT excluded (not canonically measured)",
+  "per_environment": {
+    "windows-chrome152": {
+      "environment_pass_phase6": false,
+      "universal_kernel": "pairwise",
+      "turn_universal_ms": 93547.20000000001,
+      "turn_by_kernel_ms": {
+        "generic": 109064.1,
+        "dot": 75033.35,
+        "pairwise": 93547.20000000001
+      },
+      "phase5d": null,
+      "selector_wall_used_ms": null,
+      "sessions": [
+        {
+          "adaptive_session": 1,
+          "selected_kernel": "pairwise",
+          "turn_selected_ms": 93547.20000000001,
+          "saving_per_turn_ms": 0.0,
+          "break_even_turns": "no finite break-even",
+          "first_use_cost_ms": null
+        },
+        {
+          "adaptive_session": 2,
+          "selected_kernel": "dot",
+          "turn_selected_ms": 75033.35,
+          "saving_per_turn_ms": 18513.850000000006,
+          "break_even_turns": "pending: canonical Phase 5D selector wall unavailable (= 1 turn for any wall <= 18513.9 ms)",
+          "first_use_cost_ms": null
+        }
+      ]
+    },
+    "m1-chrome153": {
+      "environment_pass_phase6": true,
+      "universal_kernel": "pairwise",
+      "turn_universal_ms": 34028.899999999994,
+      "turn_by_kernel_ms": {
+        "generic": 37199.95,
+        "dot": 41664.55,
+        "pairwise": 34028.899999999994
+      },
+      "phase5d": {
+        "files": [
+          "evidence/phase7-break-even/inputs/phase5d-m1/mac-chrome153-run1.json",
+          "evidence/phase7-break-even/inputs/phase5d-m1/mac-chrome153-run2.json"
+        ],
+        "walls_ms": [
+          141.40000000037253,
+          172.40000000037253
+        ],
+        "selected": [
+          "pairwise",
+          "pairwise"
+        ],
+        "max_wall_ms": 172.40000000037253
+      },
+      "selector_wall_used_ms": 172.40000000037253,
+      "sessions": [
+        {
+          "adaptive_session": 1,
+          "selected_kernel": "pairwise",
+          "turn_selected_ms": 34028.899999999994,
+          "saving_per_turn_ms": 0.0,
+          "break_even_turns": "no finite break-even",
+          "first_use_cost_ms": 34201.30000000037
+        },
+        {
+          "adaptive_session": 2,
+          "selected_kernel": "pairwise",
+          "turn_selected_ms": 34028.899999999994,
+          "saving_per_turn_ms": 0.0,
+          "break_even_turns": "no finite break-even",
+          "first_use_cost_ms": 34201.30000000037
+        }
+      ]
+    },
+    "m1-firefox155": {
+      "environment_pass_phase6": true,
+      "universal_kernel": "pairwise",
+      "turn_universal_ms": 43040.0,
+      "turn_by_kernel_ms": {
+        "generic": 54616.0,
+        "dot": 46866.0,
+        "pairwise": 43040.0
+      },
+      "phase5d": {
+        "files": [
+          "evidence/phase7-break-even/inputs/phase5d-m1/mac-firefox155-run1.json",
+          "evidence/phase7-break-even/inputs/phase5d-m1/mac-firefox155-run2.json"
+        ],
+        "walls_ms": [
+          173,
+          173
+        ],
+        "selected": [
+          "pairwise",
+          "pairwise"
+        ],
+        "max_wall_ms": 173
+      },
+      "selector_wall_used_ms": 173,
+      "sessions": [
+        {
+          "adaptive_session": 1,
+          "selected_kernel": "pairwise",
+          "turn_selected_ms": 43040.0,
+          "saving_per_turn_ms": 0.0,
+          "break_even_turns": "no finite break-even",
+          "first_use_cost_ms": 43213.0
+        },
+        {
+          "adaptive_session": 2,
+          "selected_kernel": "pairwise",
+          "turn_selected_ms": 43040.0,
+          "saving_per_turn_ms": 0.0,
+          "break_even_turns": "no finite break-even",
+          "first_use_cost_ms": 43213.0
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "schema": "p1-phase6-correctness-v2",
+  "timestamp": "2026-09-15T09:24:31.872Z",
+  "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
+  "canonical_input": [
+    128000,
+    791,
+    6864,
+    315,
+    9822,
+    374
+  ],
+  "same_vocab": true,
+  "finite_pass": true,
+  "variants": {
+    "generic": {
+      "n_vocab": 128256,
+      "probe_nan_count": 0,
+      "probe_inf_count": 0,
+      "vector_scan": {
+        "nan_count": 0,
+        "inf_count": 0
+      },
+      "top": {
+        "top1_id": 12366,
+        "top1_logit": 18.54962921142578,
+        "top2_id": 539,
+        "top2_logit": 13.475971221923828,
+        "margin": 5.073657989501953
+      }
+    },
+    "dot": {
+      "n_vocab": 128256,
+      "probe_nan_count": 0,
+      "probe_inf_count": 0,
+      "vector_scan": {
+        "nan_count": 0,
+        "inf_count": 0
+      },
+      "top": {
+        "top1_id": 12366,
+        "top1_logit": 18.54962921142578,
+        "top2_id": 539,
+        "top2_logit": 13.475971221923828,
+        "margin": 5.073657989501953
+      }
+    },
+    "pairwise": {
+      "n_vocab": 128256,
+      "probe_nan_count": 0,
+      "probe_inf_count": 0,
+      "vector_scan": {
+        "nan_count": 0,
+        "inf_count": 0
+      },
+      "top": {
+        "top1_id": 12366,
+        "top1_logit": 18.54962921142578,
+        "top2_id": 539,
+        "top2_logit": 13.475971221923828,
+        "margin": 5.073657989501953
+      }
+    }
+  },
+  "comparisons": {
+    "generic_vs_dot": {
+      "cosine": 1,
+      "relative_l2": 0,
+      "max_abs_diff": 0,
+      "pass": true
+    },
+    "generic_vs_pairwise": {
+      "cosine": 1,
+      "relative_l2": 0,
+      "max_abs_diff": 0,
+      "pass": true
+    },
+    "dot_vs_pairwise": {
+      "cosine": 1,
+      "relative_l2": 0,
+      "max_abs_diff": 0,
+      "pass": true
+    }
+  },
+  "overall_pass": true
+}

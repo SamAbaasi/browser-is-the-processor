@@ -1,0 +1,574 @@
+{
+  "schema": "p1-phase6-full-inference-v1",
+  "timestamp": "2026-09-15T11:30:00.575Z",
+  "mode": "adaptive",
+  "session_index": 1,
+  "phase6_protocol_sha256": "5431b9c769d08b1bb5fbc0e7c9c0d04a4e569c573ad07ab0b2c64c9afda8a728",
+  "correctness_result_sha256": "1f52d7ba0df6c4c6cd7c9d241a52d72e1831b92820c9fa37c8e8a7d506a0df14",
+  "environment": {
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
+    "platform": "Win32",
+    "hardware_concurrency": 8,
+    "device_memory_gb": 32,
+    "cross_origin_isolated": false
+  },
+  "model": {
+    "filename": "ggml-model-i2_s.gguf",
+    "bytes": 1844472032,
+    "last_modified": 1789295202939,
+    "expected_bytes": 1844472032,
+    "size_matches": true,
+    "expected_sha256": "13939ce5030319a35db346e5dba7a3a3bd599dfc18b113a2a97446ff964714c5",
+    "sha256_verified_in_browser": false
+  },
+  "selector": {
+    "schema": "p1-phase5d-autotune-v1",
+    "timestamp": "2026-09-15T11:13:54.827Z",
+    "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
+    "hardware_concurrency": 8,
+    "device_memory_gb": 32,
+    "cross_origin_isolated": false,
+    "frozen_wasm_sha256": "944fc9f7818d34383a012328525243b069bf77fd147aa4ce22a08f657b720561",
+    "protocol": {
+      "tune_n": 6912,
+      "confidence_threshold": 0.05,
+      "soft_confirmation_deadline_ms": 140,
+      "prewarm_target_ms": 3,
+      "prewarm_internal_rounds": 1,
+      "stage1_target_ms": 4,
+      "stage1_internal_rounds": 1,
+      "stage1_orders": [
+        [
+          "generic",
+          "dot",
+          "pairwise"
+        ],
+        [
+          "dot",
+          "pairwise",
+          "generic"
+        ],
+        [
+          "pairwise",
+          "generic",
+          "dot"
+        ]
+      ],
+      "confirmation_target_ms": 4,
+      "confirmation_internal_rounds": 1,
+      "max_confirmation_pairs": 1,
+      "selector_gate_ms": 200,
+      "canonical_regret_gate": 1.02,
+      "canonical_oracle": "Phase 4D frozen cross-platform v6.2",
+      "live_validation": false
+    },
+    "selector": {
+      "stage1_scores": {
+        "generic": {
+          "samples_ms": [
+            0.0011718749959507713,
+            0.0007982336936275597,
+            0.000866315604592698
+          ],
+          "sample_count": 3,
+          "median_ms": 0.000866315604592698
+        },
+        "dot": {
+          "samples_ms": [
+            0.000594429347826087,
+            0.0004638671889551915,
+            0.0005981445356155746
+          ],
+          "sample_count": 3,
+          "median_ms": 0.000594429347826087
+        },
+        "pairwise": {
+          "samples_ms": [
+            0.000696449803641844,
+            0.0005264945642050842,
+            0.0005126953110448085
+          ],
+          "sample_count": 3,
+          "median_ms": 0.0005264945642050842
+        }
+      },
+      "stage1_ranking": [
+        "pairwise",
+        "dot",
+        "generic"
+      ],
+      "stage1_margin": 0.12903226023534087,
+      "elapsed_after_stage1_ms": 152.79999995231628,
+      "confirmation_triggered": false,
+      "extension_triggered": false,
+      "confirmation_skipped_for_budget": false,
+      "confirmation_order": null,
+      "extension_top_two": null,
+      "elapsed_before_confirmation_ms": null,
+      "final_scores": {
+        "generic": {
+          "samples_ms": [
+            0.0011718749959507713,
+            0.0007982336936275597,
+            0.000866315604592698
+          ],
+          "sample_count": 3,
+          "median_ms": 0.000866315604592698
+        },
+        "dot": {
+          "samples_ms": [
+            0.000594429347826087,
+            0.0004638671889551915,
+            0.0005981445356155746
+          ],
+          "sample_count": 3,
+          "median_ms": 0.000594429347826087
+        },
+        "pairwise": {
+          "samples_ms": [
+            0.000696449803641844,
+            0.0005264945642050842,
+            0.0005126953110448085
+          ],
+          "sample_count": 3,
+          "median_ms": 0.0005264945642050842
+        }
+      },
+      "final_ranking": [
+        "pairwise",
+        "dot",
+        "generic"
+      ],
+      "final_margin": 0.12903226023534087,
+      "equivalence_set": [
+        "pairwise"
+      ],
+      "decision_mode": "clear-winner-stage1",
+      "selected_variant": "pairwise",
+      "selector_wall_ms": 152.79999995231628,
+      "passes_wall_time_gate": true
+    },
+    "gates": {
+      "selector_wall_under_200ms": true
+    },
+    "verification_wall_ms": 0.5,
+    "suite_wall_ms": 233.60000002384186
+  },
+  "selected_identity": {
+    "selector_variant": "pairwise",
+    "kernel_label": "P",
+    "runtime_variant": "pairwise",
+    "expected_runtime_wasm_sha256": "69d125579180e84c796d9d3a6039d53451df9415c3a2225cc2db20b5e360e624",
+    "mapping_verified": true
+  },
+  "workload_order": [
+    "p32",
+    "p64",
+    "p128",
+    "p256",
+    "decode64"
+  ],
+  "workloads": [
+    {
+      "workload": "p32",
+      "kind": "prefill",
+      "n_tokens": 32,
+      "kernel_key": "pairwise",
+      "kernel_label": "P",
+      "runtime_variant": "pairwise",
+      "expected_runtime_wasm_sha256": "69d125579180e84c796d9d3a6039d53451df9415c3a2225cc2db20b5e360e624",
+      "ordinal": 1,
+      "model_load_ms": 18140.8,
+      "warmup_count": 1,
+      "measurement_count": 3,
+      "samples": [
+        {
+          "type": "measurement",
+          "kind": "prefill",
+          "n_tokens": 32,
+          "rep": 0,
+          "wall_ms": 8456.3,
+          "tokens_per_second": 3.78416092144
+        },
+        {
+          "type": "measurement",
+          "kind": "prefill",
+          "n_tokens": 32,
+          "rep": 1,
+          "wall_ms": 8493.8,
+          "tokens_per_second": 3.76745390756
+        },
+        {
+          "type": "measurement",
+          "kind": "prefill",
+          "n_tokens": 32,
+          "rep": 2,
+          "wall_ms": 8501.7,
+          "tokens_per_second": 3.76395309173
+        }
+      ],
+      "median_wall_ms": 8493.8,
+      "median_tokens_per_second": 3.76745390756,
+      "worker_wall_ms": 55050.60000002384,
+      "raw_records": [
+        {
+          "type": "meta",
+          "kind": "prefill",
+          "n_tokens": 32,
+          "model_load_ms": 18140.8,
+          "threads": 1,
+          "warmups": 1,
+          "repeats": 3
+        },
+        {
+          "type": "warmup_done"
+        },
+        {
+          "type": "measurement",
+          "kind": "prefill",
+          "n_tokens": 32,
+          "rep": 0,
+          "wall_ms": 8456.3,
+          "tokens_per_second": 3.78416092144
+        },
+        {
+          "type": "measurement",
+          "kind": "prefill",
+          "n_tokens": 32,
+          "rep": 1,
+          "wall_ms": 8493.8,
+          "tokens_per_second": 3.76745390756
+        },
+        {
+          "type": "measurement",
+          "kind": "prefill",
+          "n_tokens": 32,
+          "rep": 2,
+          "wall_ms": 8501.7,
+          "tokens_per_second": 3.76395309173
+        }
+      ]
+    },
+    {
+      "workload": "p64",
+      "kind": "prefill",
+      "n_tokens": 64,
+      "kernel_key": "pairwise",
+      "kernel_label": "P",
+      "runtime_variant": "pairwise",
+      "expected_runtime_wasm_sha256": "69d125579180e84c796d9d3a6039d53451df9415c3a2225cc2db20b5e360e624",
+      "ordinal": 2,
+      "model_load_ms": 15932.7,
+      "warmup_count": 1,
+      "measurement_count": 3,
+      "samples": [
+        {
+          "type": "measurement",
+          "kind": "prefill",
+          "n_tokens": 64,
+          "rep": 0,
+          "wall_ms": 18945.9,
+          "tokens_per_second": 3.37803957584
+        },
+        {
+          "type": "measurement",
+          "kind": "prefill",
+          "n_tokens": 64,
+          "rep": 1,
+          "wall_ms": 26845.4,
+          "tokens_per_second": 2.38402109859
+        },
+        {
+          "type": "measurement",
+          "kind": "prefill",
+          "n_tokens": 64,
+          "rep": 2,
+          "wall_ms": 41781.5,
+          "tokens_per_second": 1.53177841868
+        }
+      ],
+      "median_wall_ms": 26845.4,
+      "median_tokens_per_second": 2.38402109859,
+      "worker_wall_ms": 122403.70000004768,
+      "raw_records": [
+        {
+          "type": "meta",
+          "kind": "prefill",
+          "n_tokens": 64,
+          "model_load_ms": 15932.7,
+          "threads": 1,
+          "warmups": 1,
+          "repeats": 3
+        },
+        {
+          "type": "warmup_done"
+        },
+        {
+          "type": "measurement",
+          "kind": "prefill",
+          "n_tokens": 64,
+          "rep": 0,
+          "wall_ms": 18945.9,
+          "tokens_per_second": 3.37803957584
+        },
+        {
+          "type": "measurement",
+          "kind": "prefill",
+          "n_tokens": 64,
+          "rep": 1,
+          "wall_ms": 26845.4,
+          "tokens_per_second": 2.38402109859
+        },
+        {
+          "type": "measurement",
+          "kind": "prefill",
+          "n_tokens": 64,
+          "rep": 2,
+          "wall_ms": 41781.5,
+          "tokens_per_second": 1.53177841868
+        }
+      ]
+    },
+    {
+      "workload": "p128",
+      "kind": "prefill",
+      "n_tokens": 128,
+      "kernel_key": "pairwise",
+      "kernel_label": "P",
+      "runtime_variant": "pairwise",
+      "expected_runtime_wasm_sha256": "69d125579180e84c796d9d3a6039d53451df9415c3a2225cc2db20b5e360e624",
+      "ordinal": 3,
+      "model_load_ms": 31689.7,
+      "warmup_count": 1,
+      "measurement_count": 3,
+      "samples": [
+        {
+          "type": "measurement",
+          "kind": "prefill",
+          "n_tokens": 128,
+          "rep": 0,
+          "wall_ms": 43633.7,
+          "tokens_per_second": 2.93351239982
+        },
+        {
+          "type": "measurement",
+          "kind": "prefill",
+          "n_tokens": 128,
+          "rep": 1,
+          "wall_ms": 47252.1,
+          "tokens_per_second": 2.70887431458
+        },
+        {
+          "type": "measurement",
+          "kind": "prefill",
+          "n_tokens": 128,
+          "rep": 2,
+          "wall_ms": 29994.7,
+          "tokens_per_second": 4.26742057764
+        }
+      ],
+      "median_wall_ms": 43633.7,
+      "median_tokens_per_second": 2.93351239982,
+      "worker_wall_ms": 220316,
+      "raw_records": [
+        {
+          "type": "meta",
+          "kind": "prefill",
+          "n_tokens": 128,
+          "model_load_ms": 31689.7,
+          "threads": 1,
+          "warmups": 1,
+          "repeats": 3
+        },
+        {
+          "type": "warmup_done"
+        },
+        {
+          "type": "measurement",
+          "kind": "prefill",
+          "n_tokens": 128,
+          "rep": 0,
+          "wall_ms": 43633.7,
+          "tokens_per_second": 2.93351239982
+        },
+        {
+          "type": "measurement",
+          "kind": "prefill",
+          "n_tokens": 128,
+          "rep": 1,
+          "wall_ms": 47252.1,
+          "tokens_per_second": 2.70887431458
+        },
+        {
+          "type": "measurement",
+          "kind": "prefill",
+          "n_tokens": 128,
+          "rep": 2,
+          "wall_ms": 29994.7,
+          "tokens_per_second": 4.26742057764
+        }
+      ]
+    },
+    {
+      "workload": "p256",
+      "kind": "prefill",
+      "n_tokens": 256,
+      "kernel_key": "pairwise",
+      "kernel_label": "P",
+      "runtime_variant": "pairwise",
+      "expected_runtime_wasm_sha256": "69d125579180e84c796d9d3a6039d53451df9415c3a2225cc2db20b5e360e624",
+      "ordinal": 4,
+      "model_load_ms": 12006.2,
+      "warmup_count": 1,
+      "measurement_count": 3,
+      "samples": [
+        {
+          "type": "measurement",
+          "kind": "prefill",
+          "n_tokens": 256,
+          "rep": 0,
+          "wall_ms": 73302.4,
+          "tokens_per_second": 3.49238224124
+        },
+        {
+          "type": "measurement",
+          "kind": "prefill",
+          "n_tokens": 256,
+          "rep": 1,
+          "wall_ms": 69813.9,
+          "tokens_per_second": 3.66689155025
+        },
+        {
+          "type": "measurement",
+          "kind": "prefill",
+          "n_tokens": 256,
+          "rep": 2,
+          "wall_ms": 88669.7,
+          "tokens_per_second": 2.88711927524
+        }
+      ],
+      "median_wall_ms": 73302.4,
+      "median_tokens_per_second": 3.49238224124,
+      "worker_wall_ms": 310324.60000002384,
+      "raw_records": [
+        {
+          "type": "meta",
+          "kind": "prefill",
+          "n_tokens": 256,
+          "model_load_ms": 12006.2,
+          "threads": 1,
+          "warmups": 1,
+          "repeats": 3
+        },
+        {
+          "type": "warmup_done"
+        },
+        {
+          "type": "measurement",
+          "kind": "prefill",
+          "n_tokens": 256,
+          "rep": 0,
+          "wall_ms": 73302.4,
+          "tokens_per_second": 3.49238224124
+        },
+        {
+          "type": "measurement",
+          "kind": "prefill",
+          "n_tokens": 256,
+          "rep": 1,
+          "wall_ms": 69813.9,
+          "tokens_per_second": 3.66689155025
+        },
+        {
+          "type": "measurement",
+          "kind": "prefill",
+          "n_tokens": 256,
+          "rep": 2,
+          "wall_ms": 88669.7,
+          "tokens_per_second": 2.88711927524
+        }
+      ]
+    },
+    {
+      "workload": "decode64",
+      "kind": "decode",
+      "n_tokens": 64,
+      "kernel_key": "pairwise",
+      "kernel_label": "P",
+      "runtime_variant": "pairwise",
+      "expected_runtime_wasm_sha256": "69d125579180e84c796d9d3a6039d53451df9415c3a2225cc2db20b5e360e624",
+      "ordinal": 5,
+      "model_load_ms": 27041.6,
+      "warmup_count": 1,
+      "measurement_count": 3,
+      "samples": [
+        {
+          "type": "measurement",
+          "kind": "decode",
+          "n_tokens": 64,
+          "rep": 0,
+          "wall_ms": 53245.1,
+          "tokens_per_second": 1.20198853979
+        },
+        {
+          "type": "measurement",
+          "kind": "decode",
+          "n_tokens": 64,
+          "rep": 1,
+          "wall_ms": 55092.6,
+          "tokens_per_second": 1.16168051608
+        },
+        {
+          "type": "measurement",
+          "kind": "decode",
+          "n_tokens": 64,
+          "rep": 2,
+          "wall_ms": 59098.8,
+          "tokens_per_second": 1.08293230996
+        }
+      ],
+      "median_wall_ms": 55092.6,
+      "median_tokens_per_second": 1.16168051608,
+      "worker_wall_ms": 257167.69999998808,
+      "raw_records": [
+        {
+          "type": "meta",
+          "kind": "decode",
+          "n_tokens": 64,
+          "model_load_ms": 27041.6,
+          "threads": 1,
+          "warmups": 1,
+          "repeats": 3
+        },
+        {
+          "type": "warmup_done"
+        },
+        {
+          "type": "measurement",
+          "kind": "decode",
+          "n_tokens": 64,
+          "rep": 0,
+          "wall_ms": 53245.1,
+          "tokens_per_second": 1.20198853979
+        },
+        {
+          "type": "measurement",
+          "kind": "decode",
+          "n_tokens": 64,
+          "rep": 1,
+          "wall_ms": 55092.6,
+          "tokens_per_second": 1.16168051608
+        },
+        {
+          "type": "measurement",
+          "kind": "decode",
+          "n_tokens": 64,
+          "rep": 2,
+          "wall_ms": 59098.8,
+          "tokens_per_second": 1.08293230996
+        }
+      ]
+    }
+  ],
+  "session_wall_ms": 966564.1999999881
+}

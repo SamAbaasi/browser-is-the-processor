@@ -1,0 +1,411 @@
+{
+  "schema": "p1-phase6-final-summary-v1",
+  "gate": "per environment: correctness-v2 PASS AND every adaptive session GM regret <= 1.05",
+  "regret_definition": "canonical static time of selected kernel / best canonical static time",
+  "static_aggregation": "median of 6 retained samples (3 per static session), no outlier removal",
+  "environments": [
+    {
+      "environment": "windows-chrome152",
+      "label": "Windows / Chrome 152",
+      "driver": "manual (person operated Chrome)",
+      "correctness_v2": {
+        "pass": true,
+        "ordering": "before canonical performance (frozen reference result)",
+        "file": "evidence/phase6-adaptive-full-inference/correctness/v2/windows-chrome152-correctness-v2.json",
+        "sha256": "1f52d7ba0df6c4c6cd7c9d241a52d72e1831b92820c9fa37c8e8a7d506a0df14",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
+        "top1_ids": {
+          "generic": 12366,
+          "dot": 12366,
+          "pairwise": 12366
+        }
+      },
+      "performance_environment_pass": false,
+      "phase6_environment_pass": false,
+      "oracle": {
+        "p32": {
+          "best_kernel": "dot",
+          "best_ms": 7243.200000000001,
+          "ranking": [
+            "dot",
+            "pairwise",
+            "generic"
+          ]
+        },
+        "p64": {
+          "best_kernel": "dot",
+          "best_ms": 15394.2,
+          "ranking": [
+            "dot",
+            "pairwise",
+            "generic"
+          ]
+        },
+        "p128": {
+          "best_kernel": "dot",
+          "best_ms": 36630.55,
+          "ranking": [
+            "dot",
+            "pairwise",
+            "generic"
+          ]
+        },
+        "p256": {
+          "best_kernel": "dot",
+          "best_ms": 62872.95,
+          "ranking": [
+            "dot",
+            "pairwise",
+            "generic"
+          ]
+        },
+        "decode64": {
+          "best_kernel": "dot",
+          "best_ms": 38402.8,
+          "ranking": [
+            "dot",
+            "generic",
+            "pairwise"
+          ]
+        }
+      },
+      "canonical_static_median_ms": {
+        "generic": {
+          "p32": 12830.900000000001,
+          "p64": 29460.2,
+          "p128": 59786.25,
+          "p256": 117395.55,
+          "decode64": 49277.850000000006
+        },
+        "dot": {
+          "p32": 7243.200000000001,
+          "p64": 15394.2,
+          "p128": 36630.55,
+          "p256": 62872.95,
+          "decode64": 38402.8
+        },
+        "pairwise": {
+          "p32": 9814.25,
+          "p64": 20693.9,
+          "p128": 41443.8,
+          "p256": 88173.65,
+          "decode64": 52103.4
+        }
+      },
+      "adaptive_sessions": [
+        {
+          "session_index": 1,
+          "selected_kernel": "pairwise",
+          "selector_wall_ms": 152.79999995231628,
+          "selector_decision_mode": "clear-winner-stage1",
+          "regret_by_workload": {
+            "p32": 1.3549605146896397,
+            "p64": 1.344266022268127,
+            "p128": 1.1313998834306338,
+            "p256": 1.4024099394095553,
+            "decode64": 1.356760444550918
+          },
+          "environment_gm_regret": 1.3142598150366318,
+          "gate": 1.05,
+          "pass": false
+        },
+        {
+          "session_index": 2,
+          "selected_kernel": "dot",
+          "selector_wall_ms": 157.30000001192093,
+          "selector_decision_mode": "clear-winner-stage1",
+          "regret_by_workload": {
+            "p32": 1.0,
+            "p64": 1.0,
+            "p128": 1.0,
+            "p256": 1.0,
+            "decode64": 1.0
+          },
+          "environment_gm_regret": 1.0,
+          "gate": 1.05,
+          "pass": true
+        }
+      ],
+      "evidence_dir": "claude-code-p1-handoff-2026-09-15/current-results/windows-chrome152"
+    },
+    {
+      "environment": "m1-chrome153",
+      "label": "Apple M1 / Chrome 153",
+      "driver": "manual (person operated Chrome)",
+      "correctness_v2": {
+        "pass": true,
+        "ordering": "POST-HOC: run after canonical performance (protocol-ordering deviation, disclosed; performance not rerun)",
+        "file": "evidence/phase6-adaptive-full-inference/correctness/v2/m1-chrome153-correctness-v2.json",
+        "sha256": "8835997a8413893c51b090e03c8f39a260d1fd4f6b9627b039757bd05d24761c",
+        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36",
+        "top1_ids": {
+          "generic": 12366,
+          "dot": 12366,
+          "pairwise": 12366
+        }
+      },
+      "performance_environment_pass": true,
+      "phase6_environment_pass": true,
+      "oracle": {
+        "p32": {
+          "best_kernel": "pairwise",
+          "best_ms": 3913.95,
+          "ranking": [
+            "pairwise",
+            "generic",
+            "dot"
+          ]
+        },
+        "p64": {
+          "best_kernel": "pairwise",
+          "best_ms": 7784.85,
+          "ranking": [
+            "pairwise",
+            "generic",
+            "dot"
+          ]
+        },
+        "p128": {
+          "best_kernel": "pairwise",
+          "best_ms": 16165.45,
+          "ranking": [
+            "pairwise",
+            "generic",
+            "dot"
+          ]
+        },
+        "p256": {
+          "best_kernel": "pairwise",
+          "best_ms": 34624.05,
+          "ranking": [
+            "pairwise",
+            "generic",
+            "dot"
+          ]
+        },
+        "decode64": {
+          "best_kernel": "pairwise",
+          "best_ms": 17863.449999999997,
+          "ranking": [
+            "pairwise",
+            "generic",
+            "dot"
+          ]
+        }
+      },
+      "canonical_static_median_ms": {
+        "generic": {
+          "p32": 4477.049999999999,
+          "p64": 8968.5,
+          "p128": 18338.4,
+          "p256": 38700.4,
+          "decode64": 18861.55
+        },
+        "dot": {
+          "p32": 5189.25,
+          "p64": 10330.65,
+          "p128": 21199.85,
+          "p256": 44674.8,
+          "decode64": 20464.7
+        },
+        "pairwise": {
+          "p32": 3913.95,
+          "p64": 7784.85,
+          "p128": 16165.45,
+          "p256": 34624.05,
+          "decode64": 17863.449999999997
+        }
+      },
+      "adaptive_sessions": [
+        {
+          "session_index": 1,
+          "selected_kernel": "pairwise",
+          "selector_wall_ms": 161.09999999962747,
+          "selector_decision_mode": "clear-winner-stage1",
+          "regret_by_workload": {
+            "p32": 1.0,
+            "p64": 1.0,
+            "p128": 1.0,
+            "p256": 1.0,
+            "decode64": 1.0
+          },
+          "environment_gm_regret": 1.0,
+          "gate": 1.05,
+          "pass": true
+        },
+        {
+          "session_index": 2,
+          "selected_kernel": "pairwise",
+          "selector_wall_ms": 151.19999999925494,
+          "selector_decision_mode": "clear-winner-stage1",
+          "regret_by_workload": {
+            "p32": 1.0,
+            "p64": 1.0,
+            "p128": 1.0,
+            "p256": 1.0,
+            "decode64": 1.0
+          },
+          "environment_gm_regret": 1.0,
+          "gate": 1.05,
+          "pass": true
+        }
+      ],
+      "evidence_dir": "evidence/phase6-adaptive-full-inference/m1-chrome153-freeze-2026-09-15"
+    },
+    {
+      "environment": "m1-firefox155",
+      "label": "Apple M1 / Firefox 155",
+      "driver": "W3C WebDriver (geckodriver 0.37.1) on real Firefox 155.0",
+      "correctness_v2": {
+        "pass": true,
+        "ordering": "before canonical performance",
+        "file": "evidence/phase6-adaptive-full-inference/correctness/v2/m1-firefox155-correctness-v2.json",
+        "sha256": "7db35b3bebac31f1fe737ec066b114964e26ddd0b166a204a764d8dc556e6c56",
+        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:155.0) Gecko/20100101 Firefox/155.0",
+        "top1_ids": {
+          "generic": 12366,
+          "dot": 12366,
+          "pairwise": 12366
+        }
+      },
+      "performance_environment_pass": true,
+      "phase6_environment_pass": true,
+      "oracle": {
+        "p32": {
+          "best_kernel": "pairwise",
+          "best_ms": 4470.0,
+          "ranking": [
+            "pairwise",
+            "dot",
+            "generic"
+          ]
+        },
+        "p64": {
+          "best_kernel": "pairwise",
+          "best_ms": 8954.5,
+          "ranking": [
+            "pairwise",
+            "dot",
+            "generic"
+          ]
+        },
+        "p128": {
+          "best_kernel": "pairwise",
+          "best_ms": 18637.5,
+          "ranking": [
+            "pairwise",
+            "dot",
+            "generic"
+          ]
+        },
+        "p256": {
+          "best_kernel": "pairwise",
+          "best_ms": 41022.5,
+          "ranking": [
+            "pairwise",
+            "dot",
+            "generic"
+          ]
+        },
+        "decode64": {
+          "best_kernel": "pairwise",
+          "best_ms": 24402.5,
+          "ranking": [
+            "pairwise",
+            "dot",
+            "generic"
+          ]
+        }
+      },
+      "canonical_static_median_ms": {
+        "generic": {
+          "p32": 6805.0,
+          "p64": 13630.5,
+          "p128": 27138.0,
+          "p256": 57157.0,
+          "decode64": 27478.0
+        },
+        "dot": {
+          "p32": 5353.5,
+          "p64": 10425.0,
+          "p128": 21378.5,
+          "p256": 46832.0,
+          "decode64": 25487.5
+        },
+        "pairwise": {
+          "p32": 4470.0,
+          "p64": 8954.5,
+          "p128": 18637.5,
+          "p256": 41022.5,
+          "decode64": 24402.5
+        }
+      },
+      "adaptive_sessions": [
+        {
+          "session_index": 1,
+          "selected_kernel": "pairwise",
+          "selector_wall_ms": 188,
+          "selector_decision_mode": "clear-winner-stage1",
+          "regret_by_workload": {
+            "p32": 1.0,
+            "p64": 1.0,
+            "p128": 1.0,
+            "p256": 1.0,
+            "decode64": 1.0
+          },
+          "environment_gm_regret": 1.0,
+          "gate": 1.05,
+          "pass": true
+        },
+        {
+          "session_index": 2,
+          "selected_kernel": "pairwise",
+          "selector_wall_ms": 161,
+          "selector_decision_mode": "bounded-confirmation-pair",
+          "regret_by_workload": {
+            "p32": 1.0,
+            "p64": 1.0,
+            "p128": 1.0,
+            "p256": 1.0,
+            "decode64": 1.0
+          },
+          "environment_gm_regret": 1.0,
+          "gate": 1.05,
+          "pass": true
+        }
+      ],
+      "evidence_dir": "evidence/phase6-adaptive-full-inference/m1-firefox155-freeze-2026-10-05"
+    },
+    {
+      "environment": "m1-safari17-4-1",
+      "label": "Apple M1 / Safari 17.4.1",
+      "driver": "W3C WebDriver (safaridriver) on real Safari 17.4.1",
+      "status": "INCOMPLETE: correctness-v2 only; no canonical performance data",
+      "correctness_v2": {
+        "pass": true,
+        "ordering": "before any performance session",
+        "file": "evidence/phase6-adaptive-full-inference/correctness/v2/m1-safari17-4-1-correctness-v2.json",
+        "sha256": "ee6cb066a15d830172cedea66d7f2627d2469aeed5d1430ea1fc83fd2b6acacf",
+        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4.1 Safari/605.1.15",
+        "top1_ids": {
+          "generic": 12366,
+          "dot": 12366,
+          "pairwise": 12366
+        }
+      },
+      "performance_environment_pass": null,
+      "phase6_environment_pass": null,
+      "evidence_dir": "evidence/phase6-adaptive-full-inference/m1-safari17-4-1-INCOMPLETE-2026-10-05"
+    }
+  ],
+  "environments_evaluated": [
+    "windows-chrome152",
+    "m1-chrome153",
+    "m1-firefox155"
+  ],
+  "environments_incomplete": [
+    "m1-safari17-4-1"
+  ],
+  "all_evaluated_environments_pass": false,
+  "phase6_gate_verdict": "FAIL: the frozen gate requires every tested environment to pass; windows-chrome152 failed"
+}

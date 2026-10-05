@@ -1,0 +1,21 @@
+=== CANONICAL STATIC ORACLE ===
+p32      best=pairwise 4470.000 ms
+p64      best=pairwise 8954.500 ms
+p128     best=pairwise 18637.500 ms
+p256     best=pairwise 41022.500 ms
+decode64 best=pairwise 24402.500 ms
+
+Adaptive 1 selected= pairwise selector_wall_ms= 188.000 GM_regret= 1.000000 PASS= True
+  p32 1.000000
+  p64 1.000000
+  p128 1.000000
+  p256 1.000000
+  decode64 1.000000
+Adaptive 2 selected= pairwise selector_wall_ms= 161.000 GM_regret= 1.000000 PASS= True
+  p32 1.000000
+  p64 1.000000
+  p128 1.000000
+  p256 1.000000
+  decode64 1.000000
+
+ENVIRONMENT PASS: True

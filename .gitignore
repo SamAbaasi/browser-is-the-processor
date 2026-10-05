@@ -1,0 +1,17 @@
+# Third-party binaries used only to operate browsers (528 MB; not evidence)
+_tools/
+
+# The historical GGUF is NOT redistributed here. Obtain it from
+# microsoft/bitnet-b1.58-2B-4T-gguf @ 6e8c386a5609ebd6ef546dc3cb89d684be5c08d4
+# and verify SHA256 13939ce5030319a35db346e5dba7a3a3bd599dfc18b113a2a97446ff964714c5
+*.gguf
+
+# Separate project (Developer Machine literature review), not P1 evidence
+research_notes/
+reports/
+
+.DS_Store
+__pycache__/
+
+# Original planning materials (aspirational language superseded by frozen results); only docs/PUBLIC_SOURCE_INDEX.md is published
+p1-original-research-materials-2026-09-15/

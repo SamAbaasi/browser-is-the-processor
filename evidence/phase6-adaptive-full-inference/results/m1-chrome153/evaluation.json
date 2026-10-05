@@ -1,0 +1,261 @@
+{
+  "schema": "p1-phase6-environment-evaluation-v1",
+  "static_aggregation": "median of 6 retained samples (3 per static session), no outlier removal",
+  "regret_definition": "canonical static time of selected kernel / best canonical static time",
+  "gate": 1.05,
+  "canonical_static": {
+    "generic": {
+      "p32": {
+        "samples_ms": [
+          4461.9,
+          4444,
+          4684.4,
+          4477.7,
+          4476.4,
+          4488
+        ],
+        "median_ms": 4477.049999999999
+      },
+      "p64": {
+        "samples_ms": [
+          9296.7,
+          9148.8,
+          8967,
+          8970,
+          8955.1,
+          8953.5
+        ],
+        "median_ms": 8968.5
+      },
+      "p128": {
+        "samples_ms": [
+          18271.3,
+          18390.9,
+          18085.8,
+          18357.4,
+          18320.3,
+          18356.5
+        ],
+        "median_ms": 18338.4
+      },
+      "p256": {
+        "samples_ms": [
+          38500.3,
+          38598.8,
+          38573.5,
+          38840.4,
+          38813.8,
+          38802
+        ],
+        "median_ms": 38700.4
+      },
+      "decode64": {
+        "samples_ms": [
+          19136.7,
+          19100,
+          18862.3,
+          18853.1,
+          18843.2,
+          18860.8
+        ],
+        "median_ms": 18861.55
+      }
+    },
+    "dot": {
+      "p32": {
+        "samples_ms": [
+          5172,
+          5178.2,
+          5173.5,
+          5200.4,
+          5236,
+          5200.3
+        ],
+        "median_ms": 5189.25
+      },
+      "p64": {
+        "samples_ms": [
+          10328.5,
+          10332.8,
+          10326,
+          10350.2,
+          10334.6,
+          10321.7
+        ],
+        "median_ms": 10330.65
+      },
+      "p128": {
+        "samples_ms": [
+          21175.8,
+          21210.6,
+          21167.2,
+          21201.9,
+          21197.8,
+          21205.2
+        ],
+        "median_ms": 21199.85
+      },
+      "p256": {
+        "samples_ms": [
+          44844.4,
+          44875.4,
+          44659.4,
+          44650.1,
+          44673.4,
+          44676.2
+        ],
+        "median_ms": 44674.8
+      },
+      "decode64": {
+        "samples_ms": [
+          20370.6,
+          20424.1,
+          20446.9,
+          20482.5,
+          20507.9,
+          20494.1
+        ],
+        "median_ms": 20464.7
+      }
+    },
+    "pairwise": {
+      "p32": {
+        "samples_ms": [
+          3942.5,
+          3890.2,
+          3923.6,
+          4052.9,
+          3904.3,
+          3891.9
+        ],
+        "median_ms": 3913.95
+      },
+      "p64": {
+        "samples_ms": [
+          7781.6,
+          7788,
+          7787.5,
+          7817.8,
+          7779.1,
+          7782.2
+        ],
+        "median_ms": 7784.85
+      },
+      "p128": {
+        "samples_ms": [
+          16091.1,
+          16141.5,
+          16117.5,
+          16234.6,
+          16189.4,
+          16486.5
+        ],
+        "median_ms": 16165.45
+      },
+      "p256": {
+        "samples_ms": [
+          34592.7,
+          34579,
+          34552.1,
+          34695.8,
+          34655.4,
+          35133.7
+        ],
+        "median_ms": 34624.05
+      },
+      "decode64": {
+        "samples_ms": [
+          17878.1,
+          17835,
+          17848.8,
+          17840,
+          17880.4,
+          17918
+        ],
+        "median_ms": 17863.449999999997
+      }
+    }
+  },
+  "oracle": {
+    "p32": {
+      "best_kernel": "pairwise",
+      "best_ms": 3913.95,
+      "ranking": [
+        "pairwise",
+        "generic",
+        "dot"
+      ]
+    },
+    "p64": {
+      "best_kernel": "pairwise",
+      "best_ms": 7784.85,
+      "ranking": [
+        "pairwise",
+        "generic",
+        "dot"
+      ]
+    },
+    "p128": {
+      "best_kernel": "pairwise",
+      "best_ms": 16165.45,
+      "ranking": [
+        "pairwise",
+        "generic",
+        "dot"
+      ]
+    },
+    "p256": {
+      "best_kernel": "pairwise",
+      "best_ms": 34624.05,
+      "ranking": [
+        "pairwise",
+        "generic",
+        "dot"
+      ]
+    },
+    "decode64": {
+      "best_kernel": "pairwise",
+      "best_ms": 17863.449999999997,
+      "ranking": [
+        "pairwise",
+        "generic",
+        "dot"
+      ]
+    }
+  },
+  "adaptive_sessions": [
+    {
+      "session_index": 1,
+      "selected_kernel": "pairwise",
+      "selector_wall_ms": 161.09999999962747,
+      "selector_decision_mode": "clear-winner-stage1",
+      "regret_by_workload": {
+        "p32": 1.0,
+        "p64": 1.0,
+        "p128": 1.0,
+        "p256": 1.0,
+        "decode64": 1.0
+      },
+      "environment_gm_regret": 1.0,
+      "gate": 1.05,
+      "pass": true
+    },
+    {
+      "session_index": 2,
+      "selected_kernel": "pairwise",
+      "selector_wall_ms": 151.19999999925494,
+      "selector_decision_mode": "clear-winner-stage1",
+      "regret_by_workload": {
+        "p32": 1.0,
+        "p64": 1.0,
+        "p128": 1.0,
+        "p256": 1.0,
+        "decode64": 1.0
+      },
+      "environment_gm_regret": 1.0,
+      "gate": 1.05,
+      "pass": true
+    }
+  ],
+  "environment_pass": true
+}

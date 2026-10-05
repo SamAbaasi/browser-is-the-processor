@@ -1,0 +1,1 @@
+13939ce5030319a35db346e5dba7a3a3bd599dfc18b113a2a97446ff964714c5  /Users/saman/Downloads/ggml-model-i2_s.gguf

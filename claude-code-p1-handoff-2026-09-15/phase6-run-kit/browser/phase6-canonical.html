@@ -1,0 +1,1200 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>Phase 6 — Adaptive Full Inference</title>
+
+<style>
+body {
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Consolas,
+    monospace;
+
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+button,
+input {
+  padding: 10px;
+}
+
+button {
+  cursor: pointer;
+}
+
+pre {
+  background: #111;
+  color: #eee;
+  padding: 16px;
+  min-height: 500px;
+  overflow: auto;
+  white-space: pre-wrap;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Phase 6 — Adaptive Full Inference</h1>
+
+<p>
+Frozen canonical harness.
+Model loading is excluded from inference medians.
+Every workload uses a fresh inference worker,
+one discarded warmup, and three retained measurements.
+</p>
+
+<input
+  id="model"
+  type="file"
+  accept=".gguf"
+/>
+
+<div class="controls">
+
+<button id="static1">
+Run Static Session 1
+(G → D → P)
+</button>
+
+<button id="static2">
+Run Static Session 2
+(P → D → G)
+</button>
+
+<button id="adaptive1">
+Run Adaptive Session 1
+</button>
+
+<button id="adaptive2">
+Run Adaptive Session 2
+</button>
+
+<button id="copy" disabled>
+Copy final JSON
+</button>
+
+<button id="clear">
+Clear
+</button>
+
+</div>
+
+<div id="status"></div>
+
+<pre id="output"></pre>
+
+<script>
+const PHASE6_PROTOCOL_SHA256 =
+  "5431b9c769d08b1bb5fbc0e7c9c0d04a4e569c573ad07ab0b2c64c9afda8a728";
+
+const CORRECTNESS_RESULT_SHA256 =
+  "1f52d7ba0df6c4c6cd7c9d241a52d72e1831b92820c9fa37c8e8a7d506a0df14";
+
+const SELECTOR_WASM_SHA256 =
+  "944fc9f7818d34383a012328525243b069bf77fd147aa4ce22a08f657b720561";
+
+const EXPECTED_MODEL = {
+  bytes:
+    1844472032,
+
+  sha256:
+    "13939ce5030319a35db346e5dba7a3a3bd599dfc18b113a2a97446ff964714c5"
+};
+
+const KERNELS = {
+  generic: {
+    label: "G",
+    selector_variant: "generic",
+    runtime_variant: "generic",
+
+    wasm_sha256:
+      "76317e0043e1468d35f81d8df18650c4d50d6d363983027463f9eb6abdb52ebf"
+  },
+
+  dot: {
+    label: "D",
+    selector_variant: "dot",
+    runtime_variant: "handwritten",
+
+    wasm_sha256:
+      "756a9e2230caa9a653fddb12c0ea9e3d12fb551345982c180cfb5c06aefbca9d"
+  },
+
+  pairwise: {
+    label: "P",
+    selector_variant: "pairwise",
+    runtime_variant: "pairwise",
+
+    wasm_sha256:
+      "69d125579180e84c796d9d3a6039d53451df9415c3a2225cc2db20b5e360e624"
+  }
+};
+
+const STATIC_ORDERS = {
+  1: [
+    "generic",
+    "dot",
+    "pairwise"
+  ],
+
+  2: [
+    "pairwise",
+    "dot",
+    "generic"
+  ]
+};
+
+const WORKLOADS = [
+  {
+    id: "p32",
+    kind: "prefill",
+    n_tokens: 32
+  },
+
+  {
+    id: "p64",
+    kind: "prefill",
+    n_tokens: 64
+  },
+
+  {
+    id: "p128",
+    kind: "prefill",
+    n_tokens: 128
+  },
+
+  {
+    id: "p256",
+    kind: "prefill",
+    n_tokens: 256
+  },
+
+  {
+    id: "decode64",
+    kind: "decode",
+    n_tokens: 64
+  }
+];
+
+const modelInput =
+  document.querySelector("#model");
+
+const output =
+  document.querySelector("#output");
+
+const status =
+  document.querySelector("#status");
+
+const copyButton =
+  document.querySelector("#copy");
+
+const clearButton =
+  document.querySelector("#clear");
+
+const runButtons = [
+  document.querySelector("#static1"),
+  document.querySelector("#static2"),
+  document.querySelector("#adaptive1"),
+  document.querySelector("#adaptive2")
+];
+
+let finalResult = null;
+
+function log(message = "") {
+  output.textContent +=
+    message + "\n";
+
+  output.scrollTop =
+    output.scrollHeight;
+}
+
+function median(xs) {
+  const a =
+    [...xs].sort(
+      (x, y) => x - y
+    );
+
+  const mid =
+    Math.floor(
+      a.length / 2
+    );
+
+  return (
+    a.length % 2
+      ? a[mid]
+      : (
+          a[mid - 1] +
+          a[mid]
+        ) / 2
+  );
+}
+
+function setRunning(running) {
+  for (const button of runButtons) {
+    button.disabled =
+      running;
+  }
+
+  copyButton.disabled =
+    running ||
+    !finalResult;
+
+  modelInput.disabled =
+    running;
+}
+
+function validateModel(file) {
+  if (!file) {
+    throw new Error(
+      "Select the historical GGUF first."
+    );
+  }
+
+  if (
+    file.size !==
+    EXPECTED_MODEL.bytes
+  ) {
+    throw new Error(
+      "Wrong model size. " +
+      "Expected " +
+      EXPECTED_MODEL.bytes +
+      " bytes, got " +
+      file.size +
+      "."
+    );
+  }
+}
+
+function runInferenceWorker({
+  file,
+  kernelKey,
+  workload,
+  ordinal
+}) {
+  return new Promise(
+    (resolve, reject) => {
+
+      const kernel =
+        KERNELS[kernelKey];
+
+      if (!kernel) {
+        reject(
+          new Error(
+            "Unknown kernel: " +
+            kernelKey
+          )
+        );
+
+        return;
+      }
+
+      const worker =
+        new Worker(
+          "./abba-worker.js?v=phase6canonical1"
+        );
+
+      const records = [];
+
+      worker.onerror =
+        event => {
+
+          worker.terminate();
+
+          reject(
+            new Error(
+              event.message ||
+              "Inference worker error"
+            )
+          );
+        };
+
+      worker.onmessage =
+        event => {
+
+          const msg =
+            event.data;
+
+          if (
+            msg.type ===
+            "record"
+          ) {
+            records.push(
+              msg.record
+            );
+
+            return;
+          }
+
+          if (
+            msg.type ===
+            "error"
+          ) {
+            worker.terminate();
+
+            reject(
+              new Error(
+                msg.message ||
+                "Inference runtime error"
+              )
+            );
+
+            return;
+          }
+
+          if (
+            msg.type !==
+            "done"
+          ) {
+            return;
+          }
+
+          worker.terminate();
+
+          try {
+            const meta =
+              records.find(
+                r =>
+                  r.type ===
+                  "meta"
+              );
+
+            const warmups =
+              records.filter(
+                r =>
+                  r.type ===
+                  "warmup_done"
+              );
+
+            const measurements =
+              records.filter(
+                r =>
+                  r.type ===
+                  "measurement"
+              );
+
+            if (!meta) {
+              throw new Error(
+                "Missing meta record"
+              );
+            }
+
+            if (
+              meta.warmups !== 1
+            ) {
+              throw new Error(
+                "Expected meta.warmups=1"
+              );
+            }
+
+            if (
+              warmups.length !== 1
+            ) {
+              throw new Error(
+                "Expected exactly one warmup_done record"
+              );
+            }
+
+            if (
+              measurements.length !== 3
+            ) {
+              throw new Error(
+                "Expected exactly three measured repetitions, got " +
+                measurements.length
+              );
+            }
+
+            for (
+              const r of
+              measurements
+            ) {
+              if (
+                r.kind !==
+                  workload.kind ||
+                r.n_tokens !==
+                  workload.n_tokens
+              ) {
+                throw new Error(
+                  "Measurement workload identity mismatch"
+                );
+              }
+
+              if (
+                !Number.isFinite(
+                  r.wall_ms
+                ) ||
+                r.wall_ms <= 0
+              ) {
+                throw new Error(
+                  "Invalid wall_ms"
+                );
+              }
+            }
+
+            const wallSamples =
+              measurements.map(
+                r => r.wall_ms
+              );
+
+            const tpsSamples =
+              measurements.map(
+                r =>
+                  r.tokens_per_second
+              );
+
+            resolve({
+              workload:
+                workload.id,
+
+              kind:
+                workload.kind,
+
+              n_tokens:
+                workload.n_tokens,
+
+              kernel_key:
+                kernelKey,
+
+              kernel_label:
+                kernel.label,
+
+              runtime_variant:
+                kernel.runtime_variant,
+
+              expected_runtime_wasm_sha256:
+                kernel.wasm_sha256,
+
+              ordinal,
+
+              model_load_ms:
+                meta.model_load_ms,
+
+              warmup_count:
+                1,
+
+              measurement_count:
+                measurements.length,
+
+              samples:
+                measurements,
+
+              median_wall_ms:
+                median(
+                  wallSamples
+                ),
+
+              median_tokens_per_second:
+                median(
+                  tpsSamples
+                ),
+
+              worker_wall_ms:
+                msg.workerWallMs ??
+                msg.worker_wall_ms ??
+                null,
+
+              raw_records:
+                records
+            });
+
+          } catch (error) {
+            reject(error);
+          }
+        };
+
+      worker.postMessage({
+        file,
+
+        variant:
+          kernel.runtime_variant,
+
+        kind:
+          workload.kind,
+
+        nTokens:
+          workload.n_tokens,
+
+        runIndex:
+          ordinal
+      });
+    }
+  );
+}
+
+function runPhase5DSelector() {
+  return new Promise(
+    (resolve, reject) => {
+
+      const worker =
+        new Worker(
+          "./phase5d-autotune-worker.js?v=phase5d1"
+        );
+
+      worker.onerror =
+        event => {
+
+          worker.terminate();
+
+          reject(
+            new Error(
+              event.message ||
+              "Phase5D worker error"
+            )
+          );
+        };
+
+      worker.onmessage =
+        event => {
+
+          const data =
+            event.data;
+
+          if (
+            data.type ===
+            "progress"
+          ) {
+            log(
+              "[selector] " +
+              data.message
+            );
+
+            return;
+          }
+
+          if (
+            data.type ===
+            "sample"
+          ) {
+            return;
+          }
+
+          if (
+            data.type ===
+            "error"
+          ) {
+            worker.terminate();
+
+            reject(
+              new Error(
+                data.message
+              )
+            );
+
+            return;
+          }
+
+          if (
+            data.type !==
+            "result"
+          ) {
+            return;
+          }
+
+          worker.terminate();
+
+          const result =
+            data.result;
+
+          if (
+            result.schema !==
+            "p1-phase5d-autotune-v1"
+          ) {
+            reject(
+              new Error(
+                "Unexpected selector schema: " +
+                result.schema
+              )
+            );
+
+            return;
+          }
+
+          if (
+            result.frozen_wasm_sha256 !==
+            SELECTOR_WASM_SHA256
+          ) {
+            reject(
+              new Error(
+                "Selector WASM SHA mismatch"
+              )
+            );
+
+            return;
+          }
+
+          const selected =
+            result
+              .selector
+              .selected_variant;
+
+          if (
+            !Object.prototype
+              .hasOwnProperty
+              .call(
+                KERNELS,
+                selected
+              )
+          ) {
+            reject(
+              new Error(
+                "Selector returned unknown variant: " +
+                selected
+              )
+            );
+
+            return;
+          }
+
+          resolve(result);
+        };
+
+      worker.postMessage({
+        type: "run"
+      });
+    }
+  );
+}
+
+function environmentInfo() {
+  return {
+    user_agent:
+      navigator.userAgent,
+
+    platform:
+      navigator.platform ??
+      null,
+
+    hardware_concurrency:
+      navigator.hardwareConcurrency ??
+      null,
+
+    device_memory_gb:
+      navigator.deviceMemory ??
+      null,
+
+    cross_origin_isolated:
+      crossOriginIsolated
+  };
+}
+
+function modelInfo(file) {
+  return {
+    filename:
+      file.name,
+
+    bytes:
+      file.size,
+
+    last_modified:
+      file.lastModified,
+
+    expected_bytes:
+      EXPECTED_MODEL.bytes,
+
+    size_matches:
+      file.size ===
+      EXPECTED_MODEL.bytes,
+
+    expected_sha256:
+      EXPECTED_MODEL.sha256,
+
+    sha256_verified_in_browser:
+      false
+  };
+}
+
+async function runStaticSession(
+  sessionIndex
+) {
+  const file =
+    modelInput.files[0];
+
+  validateModel(file);
+
+  const order =
+    STATIC_ORDERS[
+      sessionIndex
+    ];
+
+  if (!order) {
+    throw new Error(
+      "Invalid static session index"
+    );
+  }
+
+  finalResult = null;
+  setRunning(true);
+
+  output.textContent = "";
+
+  status.textContent =
+    "Running static session " +
+    sessionIndex;
+
+  const sessionStarted =
+    performance.now();
+
+  try {
+    const variants = [];
+
+    let ordinal = 0;
+
+    for (
+      const kernelKey of order
+    ) {
+      const kernel =
+        KERNELS[kernelKey];
+
+      log("");
+      log(
+        "=== " +
+        kernel.label +
+        " / " +
+        kernelKey +
+        " ==="
+      );
+
+      const workloadResults = [];
+
+      for (
+        const workload of
+        WORKLOADS
+      ) {
+        ++ordinal;
+
+        log(
+          `[${ordinal}/15] ` +
+          `${kernel.label} ` +
+          `${workload.id}...`
+        );
+
+        const result =
+          await runInferenceWorker({
+            file,
+            kernelKey,
+            workload,
+            ordinal
+          });
+
+        workloadResults.push(
+          result
+        );
+
+        log(
+          `  median = ` +
+          `${result.median_wall_ms.toFixed(3)} ms`
+        );
+      }
+
+      variants.push({
+        kernel_key:
+          kernelKey,
+
+        kernel_label:
+          kernel.label,
+
+        runtime_variant:
+          kernel.runtime_variant,
+
+        expected_runtime_wasm_sha256:
+          kernel.wasm_sha256,
+
+        workloads:
+          workloadResults
+      });
+    }
+
+    finalResult = {
+      schema:
+        "p1-phase6-full-inference-v1",
+
+      timestamp:
+        new Date().toISOString(),
+
+      mode:
+        "static",
+
+      session_index:
+        sessionIndex,
+
+      phase6_protocol_sha256:
+        PHASE6_PROTOCOL_SHA256,
+
+      correctness_result_sha256:
+        CORRECTNESS_RESULT_SHA256,
+
+      environment:
+        environmentInfo(),
+
+      model:
+        modelInfo(file),
+
+      workload_order:
+        WORKLOADS.map(
+          x => x.id
+        ),
+
+      static_order:
+        order,
+
+      variants,
+
+      session_wall_ms:
+        performance.now() -
+        sessionStarted
+    };
+
+    log("");
+    log(
+      "=== STATIC SESSION COMPLETE ==="
+    );
+
+    log(
+      JSON.stringify(
+        finalResult,
+        null,
+        2
+      )
+    );
+
+    status.textContent =
+      "Static session " +
+      sessionIndex +
+      " complete";
+
+  } finally {
+    setRunning(false);
+  }
+}
+
+async function runAdaptiveSession(
+  sessionIndex
+) {
+  const file =
+    modelInput.files[0];
+
+  validateModel(file);
+
+  finalResult = null;
+  setRunning(true);
+
+  output.textContent = "";
+
+  status.textContent =
+    "Running adaptive session " +
+    sessionIndex;
+
+  const sessionStarted =
+    performance.now();
+
+  try {
+    log(
+      "=== PHASE 5D SELECTOR ==="
+    );
+
+    const selector =
+      await runPhase5DSelector();
+
+    const selected =
+      selector
+        .selector
+        .selected_variant;
+
+    const kernel =
+      KERNELS[selected];
+
+    log("");
+    log(
+      "selected = " +
+      selected +
+      " (" +
+      kernel.label +
+      ")"
+    );
+
+    log(
+      "decision = " +
+      selector
+        .selector
+        .decision_mode
+    );
+
+    log(
+      "selector wall = " +
+      selector
+        .selector
+        .selector_wall_ms
+        .toFixed(3) +
+      " ms"
+    );
+
+    log(
+      "runtime directory = " +
+      kernel.runtime_variant
+    );
+
+    log("");
+    log(
+      "=== FULL INFERENCE ==="
+    );
+
+    const workloadResults = [];
+
+    let ordinal = 0;
+
+    for (
+      const workload of
+      WORKLOADS
+    ) {
+      ++ordinal;
+
+      log(
+        `[${ordinal}/5] ` +
+        `${kernel.label} ` +
+        `${workload.id}...`
+      );
+
+      const result =
+        await runInferenceWorker({
+          file,
+          kernelKey:
+            selected,
+          workload,
+          ordinal
+        });
+
+      workloadResults.push(
+        result
+      );
+
+      log(
+        `  median = ` +
+        `${result.median_wall_ms.toFixed(3)} ms`
+      );
+    }
+
+    finalResult = {
+      schema:
+        "p1-phase6-full-inference-v1",
+
+      timestamp:
+        new Date().toISOString(),
+
+      mode:
+        "adaptive",
+
+      session_index:
+        sessionIndex,
+
+      phase6_protocol_sha256:
+        PHASE6_PROTOCOL_SHA256,
+
+      correctness_result_sha256:
+        CORRECTNESS_RESULT_SHA256,
+
+      environment:
+        environmentInfo(),
+
+      model:
+        modelInfo(file),
+
+      selector,
+
+      selected_identity: {
+        selector_variant:
+          selected,
+
+        kernel_label:
+          kernel.label,
+
+        runtime_variant:
+          kernel.runtime_variant,
+
+        expected_runtime_wasm_sha256:
+          kernel.wasm_sha256,
+
+        mapping_verified:
+          true
+      },
+
+      workload_order:
+        WORKLOADS.map(
+          x => x.id
+        ),
+
+      workloads:
+        workloadResults,
+
+      session_wall_ms:
+        performance.now() -
+        sessionStarted
+    };
+
+    log("");
+    log(
+      "=== ADAPTIVE SESSION COMPLETE ==="
+    );
+
+    log(
+      JSON.stringify(
+        finalResult,
+        null,
+        2
+      )
+    );
+
+    status.textContent =
+      "Adaptive session " +
+      sessionIndex +
+      " complete";
+
+  } finally {
+    setRunning(false);
+  }
+}
+
+document
+  .querySelector("#static1")
+  .onclick =
+    () =>
+      runStaticSession(1)
+        .catch(
+          error => {
+            log("");
+            log(
+              "ERROR: " +
+              (
+                error?.stack ||
+                String(error)
+              )
+            );
+
+            status.textContent =
+              "FAILED";
+
+            setRunning(false);
+          }
+        );
+
+document
+  .querySelector("#static2")
+  .onclick =
+    () =>
+      runStaticSession(2)
+        .catch(
+          error => {
+            log("");
+            log(
+              "ERROR: " +
+              (
+                error?.stack ||
+                String(error)
+              )
+            );
+
+            status.textContent =
+              "FAILED";
+
+            setRunning(false);
+          }
+        );
+
+document
+  .querySelector("#adaptive1")
+  .onclick =
+    () =>
+      runAdaptiveSession(1)
+        .catch(
+          error => {
+            log("");
+            log(
+              "ERROR: " +
+              (
+                error?.stack ||
+                String(error)
+              )
+            );
+
+            status.textContent =
+              "FAILED";
+
+            setRunning(false);
+          }
+        );
+
+document
+  .querySelector("#adaptive2")
+  .onclick =
+    () =>
+      runAdaptiveSession(2)
+        .catch(
+          error => {
+            log("");
+            log(
+              "ERROR: " +
+              (
+                error?.stack ||
+                String(error)
+              )
+            );
+
+            status.textContent =
+              "FAILED";
+
+            setRunning(false);
+          }
+        );
+
+copyButton.onclick =
+  async () => {
+
+    if (!finalResult) {
+      return;
+    }
+
+    await navigator
+      .clipboard
+      .writeText(
+        JSON.stringify(
+          finalResult,
+          null,
+          2
+        )
+      );
+
+    copyButton.textContent =
+      "Copied";
+
+    setTimeout(
+      () => {
+        copyButton.textContent =
+          "Copy final JSON";
+      },
+      1000
+    );
+  };
+
+clearButton.onclick =
+  () => {
+    output.textContent = "";
+    status.textContent = "";
+    finalResult = null;
+    copyButton.disabled = true;
+  };
+</script>
+
+</body>
+</html>
